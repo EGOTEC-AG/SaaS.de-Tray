@@ -1,0 +1,3 @@
+saasde-tray /usr/bin/
+debian/res/* /usr/share/
+debian/saasde.list /etc/apt/sources.list.d/

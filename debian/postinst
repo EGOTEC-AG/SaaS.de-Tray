@@ -1,0 +1,10 @@
+#!/bin/bash
+FILES=/home/*
+for f in $FILES
+do
+	mkdir -p $f/.config/autostart/
+	cp /usr/share/applications/saasde.desktop $f/.config/autostart/
+done
+
+# Add Apt-Key
+wget -q -O - http://deb.saas.de/key.gpg | apt-key add -

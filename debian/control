@@ -1,0 +1,16 @@
+Source: saasdetray
+Section: user/hidden
+Priority: optional
+Maintainer: EGOTEC GmbH <support@egotec.com>
+Build-Depends: libqt4-dev, libqtwebkit-dev, debhelper (>= 8.0.0), libc6
+Standards-Version: 3.8.4
+Homepage: http://www.saas.de
+
+Package: saasdetray
+Architecture: any
+Depends: libqt4-dbus, libqt4-network, libqt4-script, libqt4-test, libqt4-xml, libqtcore4, libqt4-designer, libqt4-opengl, libqt4-svg, libqtgui4, libqtwebkit4 (>= 2.0~), libc6
+Description: SaaSde Trayicon by EGOTEC GmbH.
+	This application is the additional linux client for the SaaS.de cloud service.
+	You can use this application to record your working time and project time.
+	You don't have to worry about your records, because the app will fully mange them.
+	A time record will be created on start-up and shutdown. To get an SaaS.de account please sign-up at www.saas.de.

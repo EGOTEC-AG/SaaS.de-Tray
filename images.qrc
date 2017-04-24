@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icon/tray.png</file>
+        <file>icon/clock_stop.png</file>
+        <file>icon/favicon.icns</file>
+        <file>icon/window_size.png</file>
+        <file>icon/exit.png</file>
+    </qresource>
+</RCC>

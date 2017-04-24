@@ -1,0 +1,169 @@
+saasdetray (0.10) xenial; urgency=medium
+
+  * xenial build.
+
+ -- Johannes Laier <laier@egotec.com>  Mon, 01 Aug 2016 09:57:00 +0200
+
+saasdetray (0.9ubuntuubuntu12) trusty; urgency=low
+
+  * Strings wont show the UTF-8 encoding error no more
+
+ -- Andreas Basov <basov@egotec.com>  Mon, 14 Jul 2014 14:28:49 +0200
+
+saasdetray (0.9ubuntuubuntu11) trusty; urgency=low
+
+  * Compiled stable Version. The old one was broken.
+
+ -- Andreas Basov <basov@egotec.com>  Tue, 01 Jul 2014 13:25:23 +0200
+
+saasdetray (0.9ubuntuubuntu10) precise; urgency=low
+
+  * The same for the Registration Link
+
+ -- Andreas Basov <basov@egotec.com>  Wed, 04 Jun 2014 08:42:46 +0200
+
+saasdetray (0.9ubuntuubuntu9) precise; urgency=low
+
+  * Link to SaaS.de Desktop has been implemented
+
+ -- Andreas Basov <basov@egotec.com>  Wed, 04 Jun 2014 08:18:09 +0200
+
+saasdetray (0.9ubuntuubuntu8) precise; urgency=low
+
+  * Contextmenu icons added, systray message added
+
+ -- Andreas Basov <basov@egotec.com>  Mon, 02 Jun 2014 14:38:46 +0200
+
+saasdetray (0.9ubuntuubuntu7) precise; urgency=low
+
+  * No trustypackages anymore, only precise
+
+ -- Andreas Basov <basov@egotec.com>  Fri, 16 May 2014 16:34:10 +0200
+
+saasdetray (0.9ubuntuubuntu6) precise; urgency=low
+
+  * Minimize on x-button Startuplogin (again)
+
+ -- Andreas Basov <basov@egotec.com>  Fri, 16 May 2014 16:14:21 +0200
+
+saasdetray (0.9ubuntuubuntu5) precise; urgency=low
+
+  * Startuplogin bug fixed, app starts minimized if userdata is avalible
+
+ -- Andreas Basov <basov@egotec.com>  Wed, 14 May 2014 16:18:25 +0200
+
+saasdetray (0.9ubuntuubuntu4) precise; urgency=low
+
+  * Freezebug fixed, startuplogin bug fixed
+
+ -- Andreas Basov <basov@egotec.com>  Wed, 14 May 2014 10:11:32 +0200
+
+saasdetray (0.9ubuntuubuntu3) precise; urgency=low
+
+  * Autologin, minimize on X-Button, one-instance-application and a few little bugfixes
+
+ -- Andreas Basov <basov@egotec.com>  Mon, 05 May 2014 10:22:06 +0200
+
+saasdetray (0.9ubuntuubuntu2) precise; urgency=low
+
+  * No more Userdata transmitting.
+
+ -- Andreas Basov <basov@egotec.com>  Tue, 29 Apr 2014 17:34:54 +0200
+
+saasdetray (0.9ubuntuubuntu1) precise; urgency=low
+
+  * Second stable beta release.
+
+ -- Johannes Laier <laier@egotec.com>  Fri, 11 Apr 2014 14:46:51 +0200
+
+saasdetray (0.9ubuntu) precise; urgency=low
+
+  * First stable beta version.
+
+ -- Johannes Laier <laier@egotec.com>  Fri, 04 Apr 2014 11:04:03 +0200
+
+saasdetray (0.8ubuntu13) precise; urgency=low
+
+  * Last alpha version. First stable version on all OS.
+
+ -- Andreas Basov <basov@egotec.com>  Wed, 02 Apr 2014 10:31:38 +0200
+
+saasdetray (0.8ubuntu12) precise; urgency=low
+
+  * URL angepasst. Somit funktioniert das automatische Abmelden auch wieder.
+
+ -- Andreas Basov <basov@egotec.com>  Wed, 12 Mar 2014 09:55:09 +0100
+
+saasdetray (0.8ubuntu11) precise; urgency=low
+
+  * Buchung stoppen Icon hinzugefuegt. Trayicon passt sich dem employeestate an.
+
+ -- Andreas Basov <basov@egotec.com>  Mon, 10 Mar 2014 12:06:57 +0100
+
+saasdetray (0.8ubuntu10) precise; urgency=low
+
+  * Erste Version die signiert ist erstellen.
+
+ -- Johannes Laier <laier@egotec.com>  Thu, 06 Mar 2014 12:54:16 +0100
+
+saasdetray (0.8ubuntu9) precise; urgency=low
+
+  * WebAPPContainer in Timerecording umbenannt.
+
+ -- EGOTEC GmbH <support@egotec.com>  Wed, 05 Mar 2014 17:00:17 +0100
+
+saasdetray (0.8ubuntu8) precise; urgency=low
+
+  [ Andreas Basov ]
+  * Trying signed version
+
+ -- Johannes Laier <laier@egotec.com>  Wed, 05 Mar 2014 17:00:15 +0100
+
+saasdetray (0.8ubuntu7) precise; urgency=low
+
+  * Trayicon kann nun auch das 2. Fenster minimieren und maximieren.
+
+ -- Andreas Basov <basov@egotec.com>  Thu, 27 Feb 2014 15:45:50 +0100
+
+saasdetray (0.8ubuntu6) precise; urgency=low
+
+  * WebContainer kann nun auf alternative Versionen Wechseln.
+
+ -- Andreas Basov <basov@egotec.com>  Thu, 27 Feb 2014 15:16:55 +0100
+
+saasdetray (0.8ubuntu5) precise; urgency=low
+
+  * Url in zentrale Variable ausgelagert
+
+ -- Andreas Basov <basov@egotec.com>  Thu, 27 Feb 2014 12:09:54 +0100
+
+saasdetray (0.8ubuntu4) precise; urgency=low
+
+  * Webcontainer Version auf 14.03.0 angehoben und URL auf liveserver gesetzt.
+
+ -- Andreas Basov <basov@egotec.com>  Thu, 27 Feb 2014 10:38:58 +0100
+
+saasdetray (0.8ubuntu3) precise; urgency=low
+
+  * Interner Betatest
+
+ -- Johannes Laier <laier@egotec.com>  Thu, 27 Feb 2014 10:38:46 +0100
+
+saasdetray (0.8ubuntu2) precise; urgency=low
+
+  * Neue Version Versionstest
+
+ -- Andreas Basov <basov@egotec.com>  Wed, 26 Feb 2014 18:07:05 +0100
+
+saasdetray (0.8ubuntu1) precise; urgency=low
+
+  * Neue Version mit behobener Scrollbar und ausgeblendetem X-Button
+
+ -- Johannes Laier <laier@egotec.com>  Wed, 26 Feb 2014 17:52:37 +0100
+
+saasdetray (0.8) unstable; urgency=low
+
+  * Initial release.
+
+ -- Andreas Basov <basov@egotec.com>  Mon, 10 Feb 2014 11:29:17 +0100
+

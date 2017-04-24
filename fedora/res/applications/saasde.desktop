@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.0
+Name=SaaS.de Timeregistration
+Comment=SaaS.de Timeregistration Trayicon by EGOTEC
+Exec=saasde-tray %U
+Icon=tray.png
+Terminal=false
+Type=Application
+Encoding=UTF-8
+Categories=Network;Application;
+Keywords=Internet;Time;Timeregistration;SaaS;SaaS.de
+Name[en_US]=SaaS.de Timeregistration
+Name[de_DE]=Saas.de Zeiterfassung
+

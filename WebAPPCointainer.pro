@@ -11,7 +11,6 @@ TEMPLATE = app
 
 DEFINES += "WINVER=0x0500"
 
-
 CONFIG += static
 
 # WINDOWS CONFIGS
@@ -23,6 +22,8 @@ win32 {
 
     SOURCES +=  main_win.cpp
     QMAKE_LIBS += user32.lib
+
+    win32:RC_ICONS += icon/tray.ico
 }
  else {
     SOURCES +=  main.cpp

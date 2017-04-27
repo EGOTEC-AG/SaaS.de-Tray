@@ -168,7 +168,7 @@ void MainWindow::sendQueue() {
 
     QNetworkRequest req(QUrl(URL + "/rest/app/queue"));
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json;charset=utf-8");
-    req.setHeader(QNetworkRequest::ContentLengthHeader, postData.size());
+    req.setHeader(QNetworkRequest::ContentLengthHeader, (int) postData.size());
 
     QNetworkAccessManager http;
     QNetworkReply *netReply = http.post(req, QByteArray(postData.c_str()));

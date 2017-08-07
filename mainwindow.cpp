@@ -45,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     URL = "https://app.saas.de";
 
-    version = "v17.05.0";
+    version = "v17.08.01";
 
     firstLogin = true;
 

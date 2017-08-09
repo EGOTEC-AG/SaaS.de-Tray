@@ -45,8 +45,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     URL = "https://app.saas.de";
 
-    version = "v17.08.01";
-
     firstLogin = true;
 
     QDir userCache = QDir::homePath() + "/.saasde_cache/";

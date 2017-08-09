@@ -38,7 +38,7 @@ void BridgeControllerWindow::createWebkitFrame(bool display) {
        webView = new WebView(parent);
        webView->resize(UI_WIDTH, UI_HEIGHT);
        webView->load(QUrl(URL + "/timerecording/index.html?api=1"));
-       webView->setWindowTitle(appName + " " + version);
+       webView->setWindowTitle(appName);
        webView->setContextMenuPolicy(Qt::NoContextMenu);
        webView->setVisible(display);
        webView->setFixedSize(UI_WIDTH, UI_HEIGHT);

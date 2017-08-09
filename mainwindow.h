@@ -42,7 +42,6 @@ class MainWindow : public QMainWindow
         int UI_HEIGHT;
 
         QString URL;
-        QString version;
 
         // Localized Strings
         QString appName;

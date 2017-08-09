@@ -51,12 +51,6 @@ void BridgeControllerWindow::createWebkitFrame(bool display) {
 
        connect(mainFrame, SIGNAL(loadFinished(bool)), this, SLOT(onLoadFinished()));
 
-       // webView->page()->settings()->setAttribute(QWebEngineSettings::DeveloperExtrasEnabled, true);
-
-       // QWebInspector* in = new QWebInspector;
-       // in->setPage(webView->page());
-       // in->show();
-
        webView->show();
 
        createTrayicon();

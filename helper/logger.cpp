@@ -2,10 +2,17 @@
 
 #include <time.h>
 #include <fstream>
+#include <QDir>
 #include <QApplication>
 
 Logger::Logger(std::string action) {
-    std::ofstream out((qApp->applicationDirPath() + "/Logs/log.txt").toStdString().c_str(), std::fstream::app|std::fstream::out);
+    std::string loggingDir = (qApp->applicationDirPath() + "/Logs/").toStdString();
+    QDir dir(loggingDir.c_str());
+    if (!dir.exists()) {
+        dir.mkpath(".");
+    }
+
+    std::ofstream out((loggingDir + "log.txt").c_str(), std::fstream::app|std::fstream::out);
     out << "Function performed - " << currentDateTime().data() << " Method: " << action.data() << std::endl;
     if (action == "sendQueue (IMPORTANT)") {
         out << std::endl;
@@ -19,6 +26,5 @@ const std::string Logger::currentDateTime() {
     char buf[80];
     tstruct = *localtime(&now);
     strftime(buf, sizeof(buf), "%Y-%m-%d %X", &tstruct);
-
     return buf;
 }

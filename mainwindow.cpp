@@ -148,7 +148,6 @@ void MainWindow::changeEmployeeState(QString userState) {
 void MainWindow::comeGo(QSystemTrayIcon::ActivationReason e) {
     if (e == 3 && userKey != "") { // e == 3 == leftmouseclick
         mainFrame->runJavaScript("window.Time.comeGo();");
-
         Logger("leftclick trayicon comeGo (IMPORTANT)");
     }
 }

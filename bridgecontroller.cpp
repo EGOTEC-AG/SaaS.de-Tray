@@ -26,14 +26,9 @@ BridgeControllerWindow::BridgeControllerWindow(QWidget *parent) : MainWindow(par
 }
 
 void BridgeControllerWindow::createWebkitFrame(bool display) {
-    // Einstellungen für den Browser setzen (LocalStrage/Session Storage/OfflineDatabase)
+       // Einstellungen für den Browser setzen (LocalStrage/Session Storage/OfflineDatabase)
        QWebEngineSettings *s = QWebEngineSettings::globalSettings();
-       //s->setAttribute(QWebEngineSettings::OfflineStorageDatabaseEnabled, true);
-       //s->setOfflineStoragePath(qApp->applicationDirPath() + "/cache/" );
-       //s->setAttribute(QWebEngineSettings::OfflineWebApplicationCacheEnabled, true);
-       //s->setOfflineWebApplicationCachePath(qApp->applicationDirPath() + "/.saasde_cache/");
        s->setAttribute(QWebEngineSettings::LocalStorageEnabled, true);
-       //s->setLocalStoragePath(QDir::homePath() + "/.saasde_cache/");
        s->setAttribute(QWebEngineSettings::XSSAuditingEnabled, true);
        webView = new WebView(parent);
        webView->resize(UI_WIDTH, UI_HEIGHT);

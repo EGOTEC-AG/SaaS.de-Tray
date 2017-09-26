@@ -1,3 +1,9 @@
+saasdetray (0.11) xenial; urgency=medium
+
+  * SaaS.de Tray Icon rebuild.
+
+ -- Johannes Laier <laier@egotec.com>  Mon, 25 Sep 2017 13:44:33 +0200
+
 saasdetray (0.10) xenial; urgency=medium
 
   * xenial build.

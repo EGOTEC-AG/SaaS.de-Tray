@@ -2,13 +2,13 @@ Source: saasdetray
 Section: user/hidden
 Priority: optional
 Maintainer: EGOTEC GmbH <support@egotec.com>
-Build-Depends: qt5-default, qttools5-dev-tools, qtdeclarative5-dev, qtdeclarative5-dev-tools, qtbase5-dev, qt5-qmake, qtbase5-dev-tools, qtwebengine5-dev, qtpositioning5-dev
+Build-Depends: debhelper, qt5-default, qttools5-dev-tools, qtdeclarative5-dev, qtdeclarative5-dev-tools, qtbase5-dev, qt5-qmake, qtbase5-dev-tools, qtwebengine5-dev, qtpositioning5-dev, libqt5svg5-dev
 Standards-Version: 3.8.4
 Homepage: http://www.saas.de
 
 Package: saasdetray
 Architecture: any
-Depends: qt5-default, libqt5webengine5, libqt5webenginecore5, libqt5webenginewidgets5, libqt5webengine-data, libqt5positioning5, libqt5positioning5-plugins, libc6
+Depends: qt5-default, libqt5webengine5, libqt5webenginecore5, libqt5webenginewidgets5, libqt5webengine-data, libqt5positioning5, libqt5positioning5-plugins, libqt5svg5, libc6
 Description: SaaSde Trayicon by EGOTEC GmbH.
 	This application is the additional linux client for the SaaS.de cloud service.
 	You can use this application to record your working time and project time.

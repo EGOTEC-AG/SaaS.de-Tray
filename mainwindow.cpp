@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     qApp->setWindowIcon(QIcon(":/icon/tray.png"));
 
-    URL = "https://app.saas.de";
+    URL = "https://desktop.saas.de";
 
     firstLogin = true;
 

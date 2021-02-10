@@ -13,19 +13,17 @@ This software is part of the SaaS.de cloud based timerecording application build
 	</ul>
 	
 ## Install
-1. c OpenSSL
-https://slproweb.com/products/Win32OpenSSL.html
-2. Install QT
-https://info.qt.io/download-qt-for-application-development
-3. Install Win 10 SDK
-4. Visual Studio 2015
-5. Visual Studio Build Tools
+1. Install QT 5.15.2
+	- MSVC 2019 64-bit
+	- QT WebEngine
+3. Visual Studio 2019 Community
+5. Visual Studio Workload Desktop development with C++
 6. git clone https://github.com/EGOTEC-GmbH/SaaS.de-Tray
 
 ##Build
 1. remove WebAPPCointainer.pro.user
 2. Open Project with QT
-3. Select compiler "MSVC 2015 32BIT"
+3. Select compiler "MSVC 2019 64bit"
 4. Build
 5. Open release folder in cmd
 6. windeployqt.exe .

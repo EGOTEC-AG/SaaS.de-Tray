@@ -20,7 +20,7 @@ https://info.qt.io/download-qt-for-application-development
 3. Install Win 10 SDK
 4. Visual Studio 2015
 5. Visual Studio Build Tools
-6. git clone https://github.com/EGOTECGmbH/SaaS.de-Tray.git
+6. git clone https://github.com/EGOTEC-GmbH/SaaS.de-Tray
 
 ##Build
 1. remove WebAPPCointainer.pro.user

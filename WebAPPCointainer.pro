@@ -33,7 +33,7 @@ win32 {
 macx {
     QMAKE_INFO_PLIST = macosx/Info.plist
     ICON = icon/favicon.icns
-    QMAKE_MAC_SDK = macosx10.10
+    QMAKE_MAC_SDK = macosx10.15
 }
 RESOURCES += images.qrc
 

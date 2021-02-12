@@ -11,7 +11,7 @@
 	<key>CFBundleSignature</key>
 	<string>SAASDE</string>
 	<key>CFBundleExecutable</key>
-	<string>Timerecording</string>
+        <string>saasde-tray</string>
 	<key>CFBundleIdentifier</key>
         <string>de.saas.Timerecording</string>
 </dict>

@@ -10,7 +10,7 @@
     #include <unistd.h>
 #endif
 
-// #include <QWebInspector>
+//#include <QWebInspector>
 
 #include <QWebChannel>
 
@@ -60,9 +60,12 @@ void BridgeControllerWindow::createWebkitFrame(bool display) {
 
 void BridgeControllerWindow::onLoadFinished() {
     QString hostName = QHostInfo::localHostName();
-    mainFrame->runJavaScript("window.Time.setDeviceName(\""+hostName+"\");");
+
+    mainFrame->runJavaScript("window.loginComponentRef.setDeviceName('"+ hostName +"');");
+
+   // mainFrame->runJavaScript("window.Time.setDeviceName(\""+hostName+"\");");
     if (firstLogin == true) {
-        mainFrame->runJavaScript("window.Time.startUpLogin()");
+       // mainFrame->runJavaScript("window.Time.startUpLogin()");   TODO Methode in timerecordingv2?
         firstLogin = false;
 
         Logger("startUpLogin (IMPORTANT)");

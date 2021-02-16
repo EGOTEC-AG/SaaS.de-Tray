@@ -60,10 +60,7 @@ void BridgeControllerWindow::createWebkitFrame(bool display) {
 
 void BridgeControllerWindow::onLoadFinished() {
     QString hostName = QHostInfo::localHostName();
-
     mainFrame->runJavaScript("window.loginComponentRef.setDeviceName('"+ hostName +"');");
-
-   // mainFrame->runJavaScript("window.Time.setDeviceName(\""+hostName+"\");");
     if (firstLogin == true) {
        // mainFrame->runJavaScript("window.Time.startUpLogin()");   TODO Methode in timerecordingv2?
         firstLogin = false;

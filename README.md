@@ -28,5 +28,15 @@ This software is part of the SaaS.de cloud based timerecording application build
 5. Open release folder in cmd
 6. windeployqt.exe .
 
+##Build .dmg
+1. Build App with QtCreator
+2. <pathToQt>/bin/macdeployqt /<pathToBuildOutput>/saasde-tray.app -dmg
+
+##Debugging
+1. QtCreator -> ProjectSettings -> Run -> BuildEnvironment:
+2. Add env variable:
+	- QTWEBENGINE_REMOTE_DEBUGGING:PORT
+3. Debuggin via Chrome: localhost:PORT
+
 
 

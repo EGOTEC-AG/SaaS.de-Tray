@@ -30,7 +30,7 @@ This software is part of the SaaS.de cloud based timerecording application build
 
 ##Build .dmg
 1. Build App with QtCreator
-2. <pathToQt>/bin/macdeployqt /<pathToBuildOutput>/saasde-tray.app -dmg
+2. [pathToQt]/bin/macdeployqt /[pathToBuildOutput]/saasde-tray.app -dmg
 
 ##Debugging
 1. QtCreator -> ProjectSettings -> Run -> BuildEnvironment:

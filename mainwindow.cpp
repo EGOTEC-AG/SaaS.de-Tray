@@ -147,20 +147,22 @@ void MainWindow::changeEmployeeState(QString userState) {
 
 void MainWindow::comeGo(QSystemTrayIcon::ActivationReason e) {
     if (e == 3 && userKey != "") { // e == 3 == leftmouseclick
-        mainFrame->runJavaScript("window.Time.comeGo();");
+        //mainFrame->runJavaScript("window.Time.comeGo();");
+         mainFrame->runJavaScript("window.loginComponentRef.taskAppCome();");
         Logger("leftclick trayicon comeGo (IMPORTANT)");
     }
 }
 
 void MainWindow::onQuit() {
-    sendQueue();
+    // sendQueue();
+    mainFrame->runJavaScript("window.loginComponentRef.taskAppGo();");
     #ifdef _WIN32
         Sleep(1000);
         std::exit(EXIT_SUCCESS);
     #endif
 }
 
-void MainWindow::sendQueue() {
+ /*void MainWindow::sendQueue() {
     std::string postData = getQueue();
 
     QNetworkRequest req(QUrl(URL + "/rest/app/queue"));
@@ -201,7 +203,7 @@ std::string MainWindow::getQueue() {
     delete value;
 
     return JsonStringData;
-}
+} */
 
 bool MainWindow::checkForChangedUrl() {
     if (saasversion != URL && saasversion != "null" && saasversion != "") {

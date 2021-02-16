@@ -68,8 +68,8 @@ class MainWindow : public QMainWindow
 
         // Methods
         void setLocalizedStrings();
-        std::string getQueue();
-        void sendQueue();
+       // std::string getQueue();
+       // void sendQueue();
         bool checkForChangedUrl();
         QString getOSLanguage();
         void deleteOldWindow();

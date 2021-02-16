@@ -32,7 +32,7 @@ void BridgeControllerWindow::createWebkitFrame(bool display) {
        s->setAttribute(QWebEngineSettings::XSSAuditingEnabled, true);
        webView = new WebView(parent);
        webView->resize(UI_WIDTH, UI_HEIGHT);
-       webView->load(QUrl(URL + "/timerecordingv2/index.html?api=1"));
+       webView->load(QUrl(URL + "/timerecordingv2/index.html"));
        webView->setWindowTitle(appName);
        webView->setContextMenuPolicy(Qt::NoContextMenu);
        webView->setVisible(display);
@@ -62,10 +62,10 @@ void BridgeControllerWindow::onLoadFinished() {
     QString hostName = QHostInfo::localHostName();
     mainFrame->runJavaScript("window.loginComponentRef.setDeviceName('"+ hostName +"');");
     if (firstLogin == true) {
-       // mainFrame->runJavaScript("window.Time.startUpLogin()");   TODO Methode in timerecordingv2?
+        mainFrame->runJavaScript("window.loginComponentRef.taskAppCome();");
         firstLogin = false;
 
-        Logger("startUpLogin (IMPORTANT)");
+        Logger("taskAppCome (IMPORTANT)");
     }
 
     if (checkForChangedUrl()) {

@@ -32,7 +32,7 @@ void BridgeControllerWindow::createWebkitFrame(bool display) {
        s->setAttribute(QWebEngineSettings::XSSAuditingEnabled, true);
        webView = new WebView(parent);
        webView->resize(UI_WIDTH, UI_HEIGHT);
-       webView->load(QUrl(URL + "/timerecordingv2/index.html"));
+       webView->load(QUrl(URL + "/timerecordingv2/index.html?api=1"));
        webView->setWindowTitle(appName);
        webView->setContextMenuPolicy(Qt::NoContextMenu);
        webView->setVisible(display);

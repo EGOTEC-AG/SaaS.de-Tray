@@ -10,8 +10,6 @@
     #include <unistd.h>
 #endif
 
-//#include <QWebInspector>
-
 #include <QWebChannel>
 
 #include <QDir>
@@ -51,28 +49,21 @@ void BridgeControllerWindow::createWebkitFrame(bool display) {
        createTrayicon();
 
 #ifndef __APPLE__
-       if(doesUserCacheExist == true) {
           webView->setVisible(false);
-          systray->showMessage(appName, appRunningMinimized);
-       }
+          stray->showMessage(appName, appRunningMinimized);
 #endif
 }
 
 void BridgeControllerWindow::onLoadFinished() {
     QString hostName = QHostInfo::localHostName();
     mainFrame->runJavaScript("window.loginComponentRef.setDeviceName('"+ hostName +"');");
-    if (firstLogin == true) {
-        mainFrame->runJavaScript("window.loginComponentRef.taskAppCome();");
-        firstLogin = false;
-
-        Logger("taskAppCome (IMPORTANT)");
-    }
+    mainFrame->runJavaScript("window.loginComponentRef.taskAppCome();");
 
     if (checkForChangedUrl()) {
         URL = saasversion;
     }
 
-    QWebChannel* channel = new QWebChannel(mainFrame);
+   QWebChannel* channel = new QWebChannel(mainFrame);
     mainFrame->setWebChannel(channel);
     channel->registerObject("api", this);
 }
@@ -98,7 +89,7 @@ void BridgeControllerWindow::openSaas() {
 }
 
 void BridgeControllerWindow::openRegisterPage() {
-    QDesktopServices::openUrl(QUrl(URL + "/?register=1"));
+    //QDesktopServices::openUrl(QUrl(URL + "/?register=1"));
 
     Logger("openRegisterPage");
 }

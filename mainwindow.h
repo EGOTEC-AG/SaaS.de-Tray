@@ -58,9 +58,6 @@ class MainWindow : public QMainWindow
         QWebEnginePage* mainFrame;
         QWidget *parent;
 
-        bool firstLogin;
-        bool doesUserCacheExist;
-
         QMenu* trayIconMenu;
         QAction* showHideAction;
         QAction* quitAction;

@@ -33,6 +33,8 @@
 #include <fstream>
 #include <cstdlib>
 
+#include <QDebug>
+
 #ifdef _WIN32
     #include <Windows.h>
 #endif
@@ -44,15 +46,10 @@ MainWindow::MainWindow(QWidget *parent) :
     qApp->setWindowIcon(QIcon(":/icon/tray.png"));
 
     URL = "https://desktop.saas.de";
+    // TestURL
+    // URL = "https://local.saas.de";
 
     firstLogin = true;
-
-    QDir userCache = QDir::homePath() + "/.saasde_cache/";
-    if (userCache.entryInfoList(QDir::NoDotAndDotDot|QDir::AllEntries).count() != 0) {
-        doesUserCacheExist = true;
-    } else {
-        doesUserCacheExist = false;
-    }
 
     this->parent = parent;
 
@@ -147,8 +144,7 @@ void MainWindow::changeEmployeeState(QString userState) {
 
 void MainWindow::comeGo(QSystemTrayIcon::ActivationReason e) {
     if (e == 3 && userKey != "") { // e == 3 == leftmouseclick
-        //mainFrame->runJavaScript("window.Time.comeGo();");
-         mainFrame->runJavaScript("window.loginComponentRef.taskAppCome();");
+        mainFrame->runJavaScript("window.loginComponentRef.taskAppCome();");
         Logger("leftclick trayicon comeGo (IMPORTANT)");
     }
 }

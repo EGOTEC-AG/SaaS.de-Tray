@@ -49,8 +49,6 @@ MainWindow::MainWindow(QWidget *parent) :
     // TestURL
     // URL = "https://local.saas.de";
 
-    firstLogin = true;
-
     this->parent = parent;
 
     UI_WIDTH  = 450;

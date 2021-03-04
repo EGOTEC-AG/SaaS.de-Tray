@@ -32,8 +32,8 @@
 #include <sstream>
 #include <fstream>
 #include <cstdlib>
-
-#include <QDebug>
+#include <thread>
+#include <chrono>
 
 #ifdef _WIN32
     #include <Windows.h>
@@ -108,9 +108,9 @@ void MainWindow::createTrayicon() {
 
     systray = new QSystemTrayIcon(this);
     systray->setIcon(QIcon(":/icon/tray.png"));
-#ifndef __APPLE__
+//#ifndef __APPLE__
     systray->setContextMenu (trayIconMenu);
-#endif
+//#endif
     systray->show();
 
     connect(systray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(comeGo(QSystemTrayIcon::ActivationReason)));
@@ -154,8 +154,13 @@ void MainWindow::onQuit() {
         Sleep(1000);
         std::exit(EXIT_SUCCESS);
     #endif
+    #ifdef __APPLE__
+        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+        std::exit(EXIT_SUCCESS);
+    #endif
 }
 
+// TODO: Entfernen?
  /*void MainWindow::sendQueue() {
     std::string postData = getQueue();
 

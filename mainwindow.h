@@ -10,6 +10,7 @@
 #include <QWebEnginePage>
 #include <QWebEngineView>
 #include <QSystemTrayIcon>
+#include <QSharedMemory>
 
 #ifdef _WIN32
 #include <windows.h>

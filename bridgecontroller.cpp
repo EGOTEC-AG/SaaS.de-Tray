@@ -30,7 +30,7 @@ void BridgeControllerWindow::createWebkitFrame(bool display) {
        s->setAttribute(QWebEngineSettings::XSSAuditingEnabled, true);
        webView = new WebView(parent);
        webView->resize(UI_WIDTH, UI_HEIGHT);
-       webView->load(QUrl(URL + "/timerecordingv2/index.html?api=1"));
+       webView->load(QUrl(URL + "/timerecordingv2/#/?api=1"));
        webView->setWindowTitle(appName);
        webView->setContextMenuPolicy(Qt::NoContextMenu);
        webView->setVisible(display);
@@ -50,7 +50,7 @@ void BridgeControllerWindow::createWebkitFrame(bool display) {
 
 #ifndef __APPLE__
           webView->setVisible(false);
-          stray->showMessage(appName, appRunningMinimized);
+          systray->showMessage(appName, appRunningMinimized);
 #endif
 }
 
@@ -63,7 +63,7 @@ void BridgeControllerWindow::onLoadFinished() {
         URL = saasversion;
     }
 
-   QWebChannel* channel = new QWebChannel(mainFrame);
+    QWebChannel* channel = new QWebChannel(mainFrame);
     mainFrame->setWebChannel(channel);
     channel->registerObject("api", this);
 }
@@ -78,6 +78,7 @@ void BridgeControllerWindow::setUserData(QString employeeKey, QString version) {
 void BridgeControllerWindow::setEmployeeState(QString state) {
     MainWindow::changeEmployeeState(state);
     MainWindow::state = state;
+
 
     Logger("setEmployeeState");
 }

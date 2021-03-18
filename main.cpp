@@ -14,6 +14,10 @@
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
+    a.setOrganizationName("EGOTEC_AG");
+    a.setOrganizationDomain("egotec");
+    a.setApplicationName("SaaS-Tasksymbol");
+
 #ifndef __APPLE__
     QSharedMemory sharedMemory("{--SaaS.deTimerecordingApplication--}");
     if (!sharedMemory.create(sizeof(int))) {

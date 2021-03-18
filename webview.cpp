@@ -17,7 +17,6 @@ void WebView::changeEvent(QEvent* event) {
 //#endif
 }
 
-
 void WebView::closeEvent(QCloseEvent * event) {
 #ifdef __linux__
     event->ignore();

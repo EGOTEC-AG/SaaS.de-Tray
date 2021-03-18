@@ -15,10 +15,10 @@ CONFIG += static
 
 # WINDOWS CONFIGS
 win32 {
-    CONFIG += openssl-linked
+    #CONFIG += openssl-linked
 
-    INCLUDEPATH += C:/OpenSSL-Win32/include
-    LIBS += -LC:/OpenSSL-Win32/lib -llibcrypto -llibssl
+    #INCLUDEPATH += C:/OpenSSL-Win32/include
+    #LIBS += -LC:/OpenSSL-Win32/lib -llibcrypto -llibssl
 
     SOURCES +=  main_win.cpp
     QMAKE_LIBS += user32.lib
@@ -33,7 +33,7 @@ win32 {
 macx {
     QMAKE_INFO_PLIST = macosx/Info.plist
     ICON = icon/favicon.icns
-    QMAKE_MAC_SDK = macosx10.10
+    QMAKE_MAC_SDK = macosx11.1
 }
 RESOURCES += images.qrc
 

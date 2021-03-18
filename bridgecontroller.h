@@ -14,8 +14,9 @@ class BridgeControllerWindow : public MainWindow
 
         Q_INVOKABLE void setUserData(QString employeeKey, QString version);
         Q_INVOKABLE void setEmployeeState(QString state);
-        Q_INVOKABLE void openSaas();
-        Q_INVOKABLE void openRegisterPage();
+        //Q_INVOKABLE void openSaas();
+        //Q_INVOKABLE void openRegisterPage();
+        Q_INVOKABLE void changeUrl(QString url);
     private:
         void createWebkitFrame(bool display);
     private slots:

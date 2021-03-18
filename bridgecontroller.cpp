@@ -10,8 +10,6 @@
     #include <unistd.h>
 #endif
 
-// #include <QWebInspector>
-
 #include <QWebChannel>
 
 #include <QDir>
@@ -29,10 +27,9 @@ void BridgeControllerWindow::createWebkitFrame(bool display) {
        // Einstellungen für den Browser setzen (LocalStrage/Session Storage/OfflineDatabase)
        QWebEngineSettings *s = QWebEngineSettings::globalSettings();
        s->setAttribute(QWebEngineSettings::LocalStorageEnabled, true);
-       s->setAttribute(QWebEngineSettings::XSSAuditingEnabled, true);
        webView = new WebView(parent);
        webView->resize(UI_WIDTH, UI_HEIGHT);
-       webView->load(QUrl(URL + "/timerecording/index.html?api=1"));
+       webView->load(QUrl(URL + "/timerecordingv2/#/?api=1"));
        webView->setWindowTitle(appName);
        webView->setContextMenuPolicy(Qt::NoContextMenu);
        webView->setVisible(display);
@@ -51,26 +48,15 @@ void BridgeControllerWindow::createWebkitFrame(bool display) {
        createTrayicon();
 
 #ifndef __APPLE__
-       if(doesUserCacheExist == true) {
           webView->setVisible(false);
           systray->showMessage(appName, appRunningMinimized);
-       }
 #endif
 }
 
 void BridgeControllerWindow::onLoadFinished() {
     QString hostName = QHostInfo::localHostName();
-    mainFrame->runJavaScript("window.Time.setDeviceName(\""+hostName+"\");");
-    if (firstLogin == true) {
-        mainFrame->runJavaScript("window.Time.startUpLogin()");
-        firstLogin = false;
-
-        Logger("startUpLogin (IMPORTANT)");
-    }
-
-    if (checkForChangedUrl()) {
-        URL = saasversion;
-    }
+    mainFrame->runJavaScript("window.loginComponentRef.setDeviceName('"+ hostName +"');");
+    mainFrame->runJavaScript("window.loginComponentRef.taskAppCome();");
 
     QWebChannel* channel = new QWebChannel(mainFrame);
     mainFrame->setWebChannel(channel);
@@ -91,7 +77,14 @@ void BridgeControllerWindow::setEmployeeState(QString state) {
     Logger("setEmployeeState");
 }
 
-void BridgeControllerWindow::openSaas() {
+void BridgeControllerWindow::changeUrl(QString url) {
+   webView->load(QUrl(url + "/timerecordingv2/#/?api=1"));
+   MainWindow::saveSettings(url);
+
+   Logger("changeUrl");
+}
+
+/*void BridgeControllerWindow::openSaas() {
     QDesktopServices::openUrl(QUrl(URL));
 
     Logger("openSaas");
@@ -101,4 +94,4 @@ void BridgeControllerWindow::openRegisterPage() {
     QDesktopServices::openUrl(QUrl(URL + "/?register=1"));
 
     Logger("openRegisterPage");
-}
+}*/

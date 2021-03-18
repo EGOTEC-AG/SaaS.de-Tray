@@ -11,8 +11,14 @@
 #include <QSharedMemory>
 #include <QMessageBox>
 
+
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
+    a.setOrganizationName("EGOTEC_AG");
+    a.setOrganizationDomain("egotec");
+    a.setApplicationName("SaaS-Tasksymbol");
+
+#ifndef __APPLE__
     QSharedMemory sharedMemory("{--SaaS.deTimerecordingApplication--}");
     if (!sharedMemory.create(sizeof(int))) {
         QMessageBox msgBox;
@@ -30,4 +36,14 @@ int main(int argc, char *argv[]) {
         sharedMemory.unlock();
         return result;
     }
+#endif
+#ifdef __APPLE__
+    BridgeControllerWindow w;
+    w.setVisible(false);
+
+    QObject::connect(&a, SIGNAL(aboutToQuit()), &w, SLOT(onQuit()));
+
+    int result = a.exec();
+    return result;
+#endif
 }

@@ -1,6 +1,6 @@
 # SaaS.de Tray
 
-This software is part of the SaaS.de cloud based timerecording application build by EGOTEC GmbH.
+This software is part of the SaaS.de cloud based timerecording application build by EGOTEC AG.
  
 <p>For further information visit:</p>
 	<ul>

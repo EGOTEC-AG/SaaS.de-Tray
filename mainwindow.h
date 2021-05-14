@@ -70,6 +70,8 @@ class MainWindow : public QMainWindow
         void deleteOldWindow();
         void loadSettings();
         void saveSettings(QString url);
+
+        void sendRequest();
     private slots:
         void comeGo(QSystemTrayIcon::ActivationReason e);
         void showHideWindow();

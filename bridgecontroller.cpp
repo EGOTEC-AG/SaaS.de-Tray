@@ -19,6 +19,7 @@
 #include <QDesktopServices>
 
 
+
 BridgeControllerWindow::BridgeControllerWindow(QWidget *parent) : MainWindow(parent) {
     createWebkitFrame(true);
 }

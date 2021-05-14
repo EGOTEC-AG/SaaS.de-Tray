@@ -2,9 +2,6 @@
 #include "ui_mainwindow.h"
 #include "bridgecontroller.h"
 
-#include "json/JSON.h"
-#include "json/JSONValue.h"
-
 #include "helper/logger.h"
 
 #include <QLocale>
@@ -18,16 +15,16 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QEventLoop>
-#include <QByteArray>
 #include <QHostInfo>
 #include <QUrl>
 #include <QDir>
 #include <QSettings>
-
+#include <QJsonObject>
+#include <QJsonDocument>
 #include <QString>
 #include <QCloseEvent>
-#include <iostream>
 
+#include <iostream>
 #include <ctime>
 #include <string>
 #include <sstream>
@@ -156,15 +153,35 @@ void MainWindow::comeGo(QSystemTrayIcon::ActivationReason e) {
 }
 
 void MainWindow::onQuit() {
-    mainFrame->runJavaScript("window.loginComponentRef.taskAppGo();");
+    sendRequest();
     #ifdef _WIN32
-        Sleep(1000);
+        Sleep(2000);
         std::exit(EXIT_SUCCESS);
     #endif
     #ifdef __APPLE__
         std::this_thread::sleep_for(std::chrono::milliseconds(2000));
         std::exit(EXIT_SUCCESS);
     #endif
+
+}
+
+void MainWindow::sendRequest() {
+    QNetworkRequest req(QUrl(URL + "/rest/apps/simplego"));
+    req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+
+    QString hostName = QHostInfo::localHostName();
+    QJsonObject param;
+    param.insert("uuid", QJsonValue::fromVariant(userKey));
+    param.insert("device", QJsonValue::fromVariant(hostName));
+
+    QNetworkAccessManager http;
+    QNetworkReply *netReply = http.post(req, QJsonDocument(param).toJson(QJsonDocument::Compact));
+
+    QEventLoop loop;
+    connect(netReply, SIGNAL(finished()), &loop, SLOT(quit()));
+    loop.exec();
+
+    Logger("sendRequest");
 }
 
 QString MainWindow::getOSLanguage() {

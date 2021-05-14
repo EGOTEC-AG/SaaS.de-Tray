@@ -72,7 +72,11 @@ int main(int argc, char *argv[]) {
         sharedMemory.unlock();
         w->onQuit();
 
+        TranslateMessage(&Msg);
+        DispatchMessage(&Msg);
+
         return Msg.wParam;
+
     }
     return Msg.wParam;
 }
@@ -82,7 +86,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
         case WM_QUERYENDSESSION:
             sharedMemory.unlock();
             w->onQuit();
+            //ShutdownBlockReasonCreate( hWnd, L"Wait for SaaS.de Logout");
+            return FALSE;
             break;
+        case WM_ENDSESSION:
+            return 0;
         default:
             return DefWindowProc(hWnd, message, wParam, lParam);
     }

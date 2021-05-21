@@ -1,8 +1,8 @@
 #ifdef _WIN32
-    #include <QtWidgets/QApplication>
-    #include <Windows.h>
+#include <QtWidgets/QApplication>
+#include <Windows.h>
 #else
-    #include <QApplication>
+#include <QApplication>
 #endif
 
 #include <QWidget>

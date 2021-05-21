@@ -6,7 +6,7 @@
 
 QT += core gui webengine webenginewidgets network sql svg xml
 
-TARGET = saasde-tray
+TARGET = Timerecording
 TEMPLATE = app
 
 DEFINES += "WINVER=0x0500"
@@ -60,3 +60,5 @@ OTHER_FILES += \
     macosx/Info.plist \
     icon/window_size.png \
     icon/exit.png
+
+DISTFILES +=

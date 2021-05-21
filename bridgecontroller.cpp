@@ -4,10 +4,11 @@
 #include "helper/logger.h"
 
 #ifdef _WIN32
-    #include <windows.h>
+#include <windows.h>
+#include <WinInet.h>
 #elif __linux__
-    #include <signal.h>
-    #include <unistd.h>
+#include <signal.h>
+#include <unistd.h>
 #endif
 
 #include <QWebChannel>
@@ -17,41 +18,35 @@
 #include <QMessageBox>
 #include <QApplication>
 #include <QDesktopServices>
+#include <QProcess>
 
+#include <QVBoxLayout>
+
+//#include <QDebug>
 
 
 BridgeControllerWindow::BridgeControllerWindow(QWidget *parent) : MainWindow(parent) {
-    createWebkitFrame(true);
+    createWebkitFrame();
+    createDialog();
+    checkOnline();
 }
 
-void BridgeControllerWindow::createWebkitFrame(bool display) {
-       // Einstellungen für den Browser setzen (LocalStrage/Session Storage/OfflineDatabase)
-       QWebEngineSettings *s = QWebEngineSettings::globalSettings();
-       s->setAttribute(QWebEngineSettings::LocalStorageEnabled, true);
-       webView = new WebView(parent);
-       webView->resize(UI_WIDTH, UI_HEIGHT);
-       webView->load(QUrl(URL + "/timerecordingv2/#/?api=1"));
-       webView->setWindowTitle(appName);
-       webView->setContextMenuPolicy(Qt::NoContextMenu);
-       webView->setVisible(display);
-       webView->setFixedSize(UI_WIDTH, UI_HEIGHT);
+void BridgeControllerWindow::createWebkitFrame() {
+    // Einstellungen für den Browser setzen (LocalStrage/Session Storage/OfflineDatabase)
+    QWebEngineSettings *s = QWebEngineSettings::globalSettings();
+    s->setAttribute(QWebEngineSettings::LocalStorageEnabled, true);
+    webView = new WebView(parent);
+    webView->resize(UI_WIDTH, UI_HEIGHT);
+    webView->setWindowTitle(appName);
+    webView->setContextMenuPolicy(Qt::NoContextMenu);
+    webView->setVisible(true);
+    webView->setFixedSize(UI_WIDTH, UI_HEIGHT);
 
 #ifdef _WIN32
-       webView->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint| Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint);
+    webView->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint| Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint);
 #endif
-
-       mainFrame = webView->page();
-
-       connect(mainFrame, SIGNAL(loadFinished(bool)), this, SLOT(onLoadFinished()));
-
-       webView->show();
-
-       createTrayicon();
-
-#ifndef __APPLE__
-          webView->setVisible(false);
-          systray->showMessage(appName, appRunningMinimized);
-#endif
+    mainFrame = webView->page();
+    connect(mainFrame, SIGNAL(loadFinished(bool)), this, SLOT(onLoadFinished()));
 }
 
 void BridgeControllerWindow::onLoadFinished() {
@@ -64,6 +59,48 @@ void BridgeControllerWindow::onLoadFinished() {
     channel->registerObject("api", this);
 }
 
+void BridgeControllerWindow::checkOnline() {
+    if(QProcess::execute("ping -n 1 desktop.saas.de") == 0)
+    {
+        counter = 0;
+        qDialog->close();
+        changeUrl(URL);
+        webView->show();
+        createTrayicon();
+/*#ifndef __APPLE__
+        webView->setVisible(false);
+        systray->showMessage(appName, appRunningMinimized);
+#endif*/
+
+    } else {
+        qDialog->show();
+        webView->close();
+        counter++;
+        QString s = QString::number(counter);
+        label->setText("Keine Verbindung zu SaaS.de moeglich. Bitte uerpruefen Sie Ihre Internet-Verbindung oder melden sich beim Support. Versuche: " + s);
+        if(counter >= 5) {
+            button->setText("Beenden");
+            connect(button, SIGNAL(clicked()), this, SLOT(onQuit()));
+        }
+
+    }
+}
+
+void BridgeControllerWindow::createDialog() {
+    qDialog = new QDialog(parent);
+    qDialog->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint| Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint);
+    label = new QLabel(qDialog);
+    QVBoxLayout *vLayout = new QVBoxLayout();
+    vLayout->addWidget(label, Qt::AlignCenter);
+    button = new QPushButton(qDialog);
+    button->setText("Nochmal Versuchen");
+    vLayout->addWidget(button, Qt::AlignCenter);
+    connect(button, SIGNAL(clicked()), this, SLOT(checkOnline()));
+    qDialog->setWindowTitle(appName);
+    qDialog->setLayout(vLayout);
+    qDialog->open();
+}
+
 void BridgeControllerWindow::setUserData(QString employeeKey, QString version) {
     userKey = employeeKey;
     saasversion = version;
@@ -72,18 +109,21 @@ void BridgeControllerWindow::setUserData(QString employeeKey, QString version) {
 }
 
 void BridgeControllerWindow::setEmployeeState(QString state) {
-    MainWindow::changeEmployeeState(state);
-    MainWindow::state = state;
+    if(MainWindow::state != state){
+        MainWindow::changeEmployeeState(state);
+        MainWindow::state = state;
+    }
 
     Logger("setEmployeeState");
 }
 
 void BridgeControllerWindow::changeUrl(QString url) {
-   webView->load(QUrl(url + "/timerecordingv2/#/?api=1"));
-   MainWindow::saveSettings(url);
+    webView->load(QUrl(url + "/timerecordingv2/#/?api=1"));
+    MainWindow::saveSettings(url);
 
-   Logger("changeUrl");
+    Logger("changeUrl");
 }
+
 
 /*void BridgeControllerWindow::openSaas() {
     QDesktopServices::openUrl(QUrl(URL));

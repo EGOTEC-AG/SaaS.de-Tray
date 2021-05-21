@@ -43,12 +43,12 @@ int main(int argc, char *argv[]) {
     RegisterClassEx(&wc);
 
     hwnd = CreateWindowEx(
-    WS_EX_CLIENTEDGE,
-    g_szClassName,
-    L"SaaSde Timerecording",
-    WS_OVERLAPPEDWINDOW,
-    CW_USEDEFAULT, CW_USEDEFAULT, 240, 120,
-    NULL, NULL, hInstance, NULL);
+                WS_EX_CLIENTEDGE,
+                g_szClassName,
+                L"SaaSde Timerecording",
+                WS_OVERLAPPEDWINDOW,
+                CW_USEDEFAULT, CW_USEDEFAULT, 240, 120,
+                NULL, NULL, hInstance, NULL);
 
     ShowWindow(hwnd, SW_HIDE);
     UpdateWindow(hwnd);
@@ -83,16 +83,16 @@ int main(int argc, char *argv[]) {
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     switch (message) {
-        case WM_QUERYENDSESSION:
-            sharedMemory.unlock();
-            w->onQuit();
-            //ShutdownBlockReasonCreate( hWnd, L"Wait for SaaS.de Logout");
-            return FALSE;
-            break;
-        case WM_ENDSESSION:
-            return 0;
-        default:
-            return DefWindowProc(hWnd, message, wParam, lParam);
+    case WM_QUERYENDSESSION:
+        sharedMemory.unlock();
+        w->onQuit();
+        //ShutdownBlockReasonCreate( hWnd, L"Wait for SaaS.de Logout");
+        return FALSE;
+        break;
+    case WM_ENDSESSION:
+        return 0;
+    default:
+        return DefWindowProc(hWnd, message, wParam, lParam);
     }
     return 0;
 }

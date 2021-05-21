@@ -6,7 +6,7 @@ WebView::WebView(QWidget *parent) :
 }
 
 void WebView::changeEvent(QEvent* event) {
-//#ifndef __APPLE__
+    //#ifndef __APPLE__
     event->ignore();
     if(event->type() == QEvent::WindowStateChange) {
         if(this->isVisible() && this->isMinimized()) {
@@ -14,7 +14,7 @@ void WebView::changeEvent(QEvent* event) {
             this->setVisible(false);
         }
     }
-//#endif
+    //#endif
 }
 
 void WebView::closeEvent(QCloseEvent * event) {

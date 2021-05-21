@@ -33,8 +33,10 @@
 #include <thread>
 #include <chrono>
 
+//#include <QDebug>
+
 #ifdef _WIN32
-    #include <Windows.h>
+#include <Windows.h>
 #endif
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -57,10 +59,10 @@ MainWindow::MainWindow(QWidget *parent) :
     }
 
     setGeometry(
-               (QApplication::desktop()->width() / 2) - (UI_WIDTH / 2),
+                (QApplication::desktop()->width() / 2) - (UI_WIDTH / 2),
                 (QApplication::desktop()->height() / 2) - (UI_HEIGHT / 2),
-               UI_WIDTH, UI_HEIGHT
-    );
+                UI_WIDTH, UI_HEIGHT
+                );
     setFixedSize(UI_WIDTH, UI_HEIGHT);
 
     setLocalizedStrings();
@@ -113,9 +115,9 @@ void MainWindow::createTrayicon() {
 
     systray = new QSystemTrayIcon(this);
     systray->setIcon(QIcon(":/icon/tray.png"));
-//#ifndef __APPLE__
+    //#ifndef __APPLE__
     systray->setContextMenu (trayIconMenu);
-//#endif
+    //#endif
     systray->show();
 
     connect(systray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(comeGo(QSystemTrayIcon::ActivationReason)));
@@ -133,39 +135,38 @@ void MainWindow::changeEmployeeState(QString userState) {
     if (userState == "true") {
         systray->setIcon(QIcon(":/icon/clock_stop.png"));
         qApp->setWindowIcon(QIcon(":/icon/clock_stop.png"));
-        if (userState != state) {
-            systray->showMessage(appName, comeMessage);
-        }
+        //  systray->showMessage(appName, comeMessage);
     } else {
         systray->setIcon(QIcon(":/icon/tray.png"));
         qApp->setWindowIcon(QIcon(":/icon/tray.png"));
-        if (userState != state) {
-            systray->showMessage(appName, goMessage);
-        }
+        //  systray->showMessage(appName, goMessage);
     }
 }
 
 void MainWindow::comeGo(QSystemTrayIcon::ActivationReason e) {
     if (e == 3 && userKey != "") { // e == 3 == leftmouseclick
-        mainFrame->runJavaScript("window.loginComponentRef.taskAppCome();");
+        if(state == "true") {
+            mainFrame->runJavaScript("window.loginComponentRef.taskAppGo();");
+        } else {
+            mainFrame->runJavaScript("window.loginComponentRef.taskAppCome();");
+        }
         Logger("leftclick trayicon comeGo (IMPORTANT)");
     }
 }
 
 void MainWindow::onQuit() {
-    sendRequest();
-    #ifdef _WIN32
-        Sleep(2000);
-        std::exit(EXIT_SUCCESS);
-    #endif
-    #ifdef __APPLE__
-        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-        std::exit(EXIT_SUCCESS);
-    #endif
-
+    sendGoRequest();
+#ifdef _WIN32
+    Sleep(2000);
+    std::exit(EXIT_SUCCESS);
+#endif
+#ifdef __APPLE__
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    std::exit(EXIT_SUCCESS);
+#endif
 }
 
-void MainWindow::sendRequest() {
+void MainWindow::sendGoRequest() {
     QNetworkRequest req(QUrl(URL + "/rest/apps/simplego"));
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
@@ -181,7 +182,7 @@ void MainWindow::sendRequest() {
     connect(netReply, SIGNAL(finished()), &loop, SLOT(quit()));
     loop.exec();
 
-    Logger("sendRequest");
+    Logger("sendGoRequest");
 }
 
 QString MainWindow::getOSLanguage() {

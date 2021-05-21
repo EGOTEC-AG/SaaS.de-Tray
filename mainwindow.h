@@ -2,9 +2,9 @@
 #define MAINWINDOW_H
 
 #ifdef _WIN32
-    #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMainWindow>
 #else
-    #include <QMainWindow>
+#include <QMainWindow>
 #endif
 
 #include <QWebEnginePage>
@@ -26,57 +26,57 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    public:
-        explicit MainWindow(QWidget *parent = 0);
-        ~MainWindow();
+public:
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
 
-        void changeEmployeeState(QString userState);
+    void changeEmployeeState(QString userState);
 
-        void createTrayicon();
-    protected:
-        QString userKey;
-        QString saasversion;
-        QString state;
+    void createTrayicon();
+protected:
+    QString userKey;
+    QString saasversion;
+    QString state;
 
-    protected:
-        int UI_WIDTH;
-        int UI_HEIGHT;
+protected:
+    int UI_WIDTH;
+    int UI_HEIGHT;
 
-        QString URL;
+    QString URL;
 
-        // Localized Strings
-        QString appName;
-        QString appRunningMinimized;
-        QString come;
-        QString comeMessage;
-        QString go;
-        QString goMessage;
-        QString quit;
+    // Localized Strings
+    QString appName;
+    QString appRunningMinimized;
+    QString come;
+    QString comeMessage;
+    QString go;
+    QString goMessage;
+    QString quit;
 
-        // System Vars
-        Ui::MainWindow *ui;
-        WebView* webView;
-        QWebEnginePage* mainFrame;
-        QWidget *parent;
+    // System Vars
+    Ui::MainWindow *ui;
+    WebView* webView;
+    QWebEnginePage* mainFrame;
+    QWidget *parent;
 
-        QMenu* trayIconMenu;
-        QAction* showHideAction;
-        QAction* quitAction;
-        QSystemTrayIcon* systray;
+    QMenu* trayIconMenu;
+    QAction* showHideAction;
+    QAction* quitAction;
+    QSystemTrayIcon* systray;
 
-        // Methods
-        void setLocalizedStrings();
-        QString getOSLanguage();
-        void deleteOldWindow();
-        void loadSettings();
-        void saveSettings(QString url);
+    // Methods
+    void setLocalizedStrings();
+    QString getOSLanguage();
+    void deleteOldWindow();
+    void loadSettings();
+    void saveSettings(QString url);
 
-        void sendRequest();
-    private slots:
-        void comeGo(QSystemTrayIcon::ActivationReason e);
-        void showHideWindow();
-    public slots:
-        void onQuit();
+    void sendGoRequest();
+private slots:
+    void comeGo(QSystemTrayIcon::ActivationReason e);
+    void showHideWindow();
+public slots:
+    void onQuit();
 };
 
 #endif // MAINWINDOW_H

@@ -18,7 +18,7 @@ This software is part of the SaaS.de cloud based timerecording application build
 	- QT WebEngine
 3. Visual Studio 2019 Community
 5. Visual Studio Workload Desktop development with C++
-6. git clone https://github.com/EGOTEC-GmbH/SaaS.de-Tray
+6. git clone https://github.com/EGOTEC-AG/SaaS.de-Tray
 
 ##Build
 1. remove WebAPPCointainer.pro.user

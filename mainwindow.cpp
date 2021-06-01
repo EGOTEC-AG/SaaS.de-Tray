@@ -73,11 +73,15 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::loadSettings() {
     QSettings settings;
     URL = settings.value("URL", "https://desktop.saas.de").toString();
+    Logger("loadSettings " + URL.toStdString());
+
 }
 
 void MainWindow::saveSettings(QString url) {
     QSettings settings;
     settings.setValue("URL", url);
+    URL = url;
+    Logger("saveSettings " + url.toStdString());
 }
 
 void MainWindow::setLocalizedStrings() {
@@ -182,7 +186,11 @@ void MainWindow::sendGoRequest() {
     connect(netReply, SIGNAL(finished()), &loop, SLOT(quit()));
     loop.exec();
 
-    Logger("sendGoRequest");
+    QByteArray bytes = netReply->readAll();
+    QString str = QString::fromUtf8(bytes.data(), bytes.size());
+    int statusCode = netReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+
+    Logger("sendGoRequest " + URL.toStdString() + " StatusCode: " + std::to_string(statusCode) + " Response: " + str.toStdString());
 }
 
 QString MainWindow::getOSLanguage() {

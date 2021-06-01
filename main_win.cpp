@@ -54,6 +54,9 @@ int main(int argc, char *argv[]) {
     UpdateWindow(hwnd);
 
     QApplication a(argc, argv);
+    a.setOrganizationName("EGOTEC_AG");
+    a.setOrganizationDomain("egotec");
+    a.setApplicationName("SaaS-Tasksymbol");
     sharedMemory.setNativeKey("{--SaaS.deTimerecordingApplication--}");
     if (!sharedMemory.create(sizeof(int))) {
         QMessageBox msgBox;

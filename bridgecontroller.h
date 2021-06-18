@@ -23,6 +23,7 @@ public:
     QPushButton *button;
     QLabel *label;
     int counter;
+    bool dialog = false;
 
 private:
     void createDialog();

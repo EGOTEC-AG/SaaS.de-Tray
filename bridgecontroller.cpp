@@ -22,12 +22,11 @@
 
 #include <QVBoxLayout>
 
-//#include <QDebug>
+#include <QDebug>
 
 
 BridgeControllerWindow::BridgeControllerWindow(QWidget *parent) : MainWindow(parent) {
     createWebkitFrame();
-    createDialog();
     checkOnline();
 }
 
@@ -60,29 +59,39 @@ void BridgeControllerWindow::onLoadFinished() {
 }
 
 void BridgeControllerWindow::checkOnline() {
-    if(QProcess::execute("ping -n 1 desktop.saas.de") == 0)
+    QString ping = "ping -c 1 ";
+
+    #ifdef _WIN32
+         ping = "ping -n 1 ";
+    #endif
+
+     ping += URL;
+     ping.replace("https://" , "");
+
+    if(QProcess::execute(ping) == 0)
     {
+        if(dialog == true) {
+            qDialog->close();
+            dialog = false;
+        }
         counter = 0;
-        qDialog->close();
         changeUrl(URL);
         webView->show();
         createTrayicon();
-/*#ifndef __APPLE__
-        webView->setVisible(false);
-        systray->showMessage(appName, appRunningMinimized);
-#endif*/
-
     } else {
+        if (counter == 0) {
+             createDialog();
+             dialog = true;
+        }
         qDialog->show();
         webView->close();
         counter++;
         QString s = QString::number(counter);
-        label->setText("Keine Verbindung zu SaaS.de moeglich. Bitte uerpruefen Sie Ihre Internet-Verbindung oder melden sich beim Support. Versuche: " + s);
+        label->setText("Keine Verbindung zu "+ URL +" moeglich. Bitte uerpruefen Sie Ihre Internet-Verbindung oder melden sich beim Support. Versuch: " + s + " von 5.");
         if(counter >= 5) {
             button->setText("Beenden");
             connect(button, SIGNAL(clicked()), this, SLOT(onQuit()));
         }
-
     }
 }
 

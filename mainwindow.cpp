@@ -11,6 +11,7 @@
 #include <QWebEngineSettings>
 #include <QSystemTrayIcon>
 
+#include <QNetworkInterface>
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -33,7 +34,7 @@
 #include <thread>
 #include <chrono>
 
-//#include <QDebug>
+#include <QDebug>
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -68,11 +69,16 @@ MainWindow::MainWindow(QWidget *parent) :
     setLocalizedStrings();
 
     ui->setupUi(this);
+
+    logNetworkIFace();
+
+    Logger("OS Info: " + QSysInfo::prettyProductName().toStdString() + " " + QSysInfo::kernelVersion().toStdString());
+    Logger("App Version: " + getLocalVersion().toStdString());
 }
 
 void MainWindow::loadSettings() {
     QSettings settings;
-    URL = settings.value("URL", "https://desktop.saas.de").toString();
+    URL = settings.value("URL", "https://ego.saas.de").toString();
     Logger("loadSettings " + URL.toStdString());
 
 }
@@ -154,7 +160,7 @@ void MainWindow::comeGo(QSystemTrayIcon::ActivationReason e) {
         } else {
             mainFrame->runJavaScript("window.loginComponentRef.taskAppCome();");
         }
-        Logger("leftclick trayicon comeGo (IMPORTANT)");
+        Logger("leftclick trayicon comeGo");
     }
 }
 
@@ -197,6 +203,27 @@ QString MainWindow::getOSLanguage() {
     QLocale* sysInfo = new QLocale();
     return sysInfo->name();
 }
+
+QString MainWindow::getLocalVersion() {
+    QFile localVersion(qApp->applicationDirPath() + "/version");
+    if(!localVersion.open(QIODevice::ReadOnly)) {
+       return "Version File not found";
+    }
+    QTextStream in(&localVersion);
+
+    return in.readLine().replace(QString("\n"), QString(""));
+}
+
+void MainWindow::logNetworkIFace(){
+    QList<QNetworkInterface> allInterfaces = QNetworkInterface::allInterfaces();
+        foreach(QNetworkInterface iFace, allInterfaces) {
+            if((iFace.flags() & QNetworkInterface::IsUp) && (iFace.flags() & QNetworkInterface::IsRunning) && !(iFace.type() & QNetworkInterface::Loopback)) {
+                QString temp = QVariant::fromValue(iFace.type()).toString();
+                Logger("NetworkInterace: " + iFace.humanReadableName().toStdString() + " " + temp.toStdString());
+            }
+        }
+}
+
 
 void MainWindow::deleteOldWindow() {
     delete webView;

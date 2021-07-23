@@ -13,7 +13,7 @@ Logger::Logger(std::string action) {
     }
 
     std::ofstream out((loggingDir + "log.txt").c_str(), std::fstream::app|std::fstream::out);
-    out << "Function performed - " << currentDateTime().data() << " Method: " << action.data() << std::endl;
+    out  << currentDateTime().data() << ": " << action.data() << std::endl;
     out.close();
 }
 

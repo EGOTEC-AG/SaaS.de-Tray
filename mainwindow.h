@@ -33,6 +33,8 @@ public:
     void changeEmployeeState(QString userState);
 
     void createTrayicon();
+    QString getLocalVersion();
+    void showNetworkInteraces();
 protected:
     QString userKey;
     QString saasversion;

@@ -34,7 +34,7 @@ public:
 
     void createTrayicon();
     QString getLocalVersion();
-    void showNetworkInteraces();
+    void logNetworkIFace();
 protected:
     QString userKey;
     QString saasversion;

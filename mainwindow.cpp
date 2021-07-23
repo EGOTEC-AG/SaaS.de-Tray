@@ -34,7 +34,7 @@
 #include <thread>
 #include <chrono>
 
-#include <QDebug>
+//#include <QDebug>
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -78,7 +78,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::loadSettings() {
     QSettings settings;
-    URL = settings.value("URL", "https://ego.saas.de").toString();
+    URL = settings.value("URL", "https://desktop.saas.de").toString();
     Logger("loadSettings " + URL.toStdString());
 
 }

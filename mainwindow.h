@@ -18,6 +18,9 @@
 #endif
 
 #include "webview.h"
+#include <QPushButton>
+#include <QLabel>
+#include <QDialog>
 
 namespace Ui {
 class MainWindow;
@@ -66,6 +69,7 @@ protected:
     QAction* quitAction;
     QSystemTrayIcon* systray;
 
+
     // Methods
     void setLocalizedStrings();
     QString getOSLanguage();
@@ -75,18 +79,23 @@ protected:
 
     void sendGoRequest();
 private:
+    QDialog *qDialog;
+    QPushButton *button;
+    QLabel *label;
     FileDownloader* m_downloadCtrl;
-
-    // Settings for Versioncontrol
     QString versionURL;
+    QString onlineVersion;
     void downloadFile(QUrl fileUrl);
+    void createDialog();
+
 
 private slots:
     void comeGo(QSystemTrayIcon::ActivationReason e);
     void showHideWindow();
 public slots:
     void onQuit();
-    QString getOnlineVersion();
+    void checkForUpdate();
+
 };
 
 #endif // MAINWINDOW_H

@@ -24,6 +24,7 @@
 #include <QJsonDocument>
 #include <QString>
 #include <QCloseEvent>
+#include <QVBoxLayout>
 
 #include <iostream>
 #include <ctime>
@@ -46,10 +47,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     // Settings
 #ifdef _WIN32
-    //MainWindow::filesURL = "http://files.saas.de/saasde/tray/windows/version";
     MainWindow::versionURL = "http://files.saas.de/tasksymbol_2021/windows/version";
 #elif __APPLE__
-    MainWindow::filesURL = "http://files.saas.de/saasde/tray/mac/version";
+    MainWindow::versionURL = "http://files.saas.de/saasde/tray/mac/version";
 #endif
 
     qApp->setWindowIcon(QIcon(":/icon/tray.png"));
@@ -84,7 +84,6 @@ MainWindow::MainWindow(QWidget *parent) :
     Logger("App Version: " + getLocalVersion().toStdString());
 
     downloadFile(versionURL);
-
 }
 
 void MainWindow::loadSettings() {
@@ -228,17 +227,39 @@ QString MainWindow::getLocalVersion() {
 void MainWindow::downloadFile(QUrl fileUrl) {
     m_downloadCtrl = new FileDownloader(fileUrl, this);
 
-   // connect(m_downloadCtrl, SIGNAL(connectionError()), this, SLOT(offlineStart()));
-    connect(m_downloadCtrl, SIGNAL(downloaded()), this, SLOT(getOnlineVersion()));
+   //connect(m_downloadCtrl, SIGNAL(connectionError()), this, SLOT(offlineStart()));
+    connect(m_downloadCtrl, SIGNAL(downloaded()), this, SLOT(checkForUpdate()));
 }
 
-QString MainWindow::getOnlineVersion() {
-    QString onlineVersion = m_downloadCtrl->downloadedData().replace("\n", "");
-    qDebug() << "onlineVersion " << onlineVersion;
-
-    // TODO Open Dialog
-    return onlineVersion;
+void MainWindow::createDialog()
+{
+    qDialog = new QDialog();
+  //qDialog->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint| Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint);
+    qDialog->setWindowFlags(Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
+    label = new QLabel(qDialog);
+    label->setText("Eine neue Version ist verfügbar");  // TODO Versionsnummereinfügen
+    QVBoxLayout *vLayout = new QVBoxLayout();
+    vLayout->addWidget(label, Qt::AlignCenter);
+    button = new QPushButton(qDialog);
+    button->setText("Installieren");
+    vLayout->addWidget(button, Qt::AlignCenter);
+    //connect(button, SIGNAL(clicked()), this, SLOT(openInstaller()));   // TODO openInstaller
+    qDialog->setWindowTitle(appName);
+    qDialog->setLayout(vLayout);
+    qDialog->open();
 }
+
+void MainWindow::checkForUpdate() {
+    onlineVersion = m_downloadCtrl->downloadedData().replace("\n", "");
+    qDebug() << "onlineVersion " << onlineVersion << "localVersion " << getLocalVersion();
+     if (getLocalVersion() == onlineVersion) {
+         qDebug() << "keine neue Version";
+     } else {
+          qDebug() << "neue Version!!!";
+          createDialog();
+     }
+}
+
 
 
 void MainWindow::logNetworkIFace(){

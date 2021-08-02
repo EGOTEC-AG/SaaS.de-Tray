@@ -39,6 +39,7 @@ RESOURCES += images.qrc
 
 SOURCES += mainwindow.cpp \
     bridgecontroller.cpp \
+    filedownloader.cpp \
     json/JSON.cpp \
     json/JSONValue.cpp \
     webview.cpp \
@@ -46,6 +47,7 @@ SOURCES += mainwindow.cpp \
 
 HEADERS  += mainwindow.h \
     bridgecontroller.h \
+    filedownloader.h \
     json/JSON.h \
     json/JSONValue.h \
     webview.h \

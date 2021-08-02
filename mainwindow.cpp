@@ -44,6 +44,14 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    // Settings
+#ifdef _WIN32
+    //MainWindow::filesURL = "http://files.saas.de/saasde/tray/windows/version";
+    MainWindow::versionURL = "http://files.saas.de/tasksymbol_2021/windows/version";
+#elif __APPLE__
+    MainWindow::filesURL = "http://files.saas.de/saasde/tray/mac/version";
+#endif
+
     qApp->setWindowIcon(QIcon(":/icon/tray.png"));
 
     this->loadSettings();
@@ -74,6 +82,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     Logger("OS Info: " + QSysInfo::prettyProductName().toStdString() + " " + QSysInfo::kernelVersion().toStdString());
     Logger("App Version: " + getLocalVersion().toStdString());
+
+    downloadFile(versionURL);
+
 }
 
 void MainWindow::loadSettings() {
@@ -213,6 +224,22 @@ QString MainWindow::getLocalVersion() {
 
     return in.readLine().replace(QString("\n"), QString(""));
 }
+
+void MainWindow::downloadFile(QUrl fileUrl) {
+    m_downloadCtrl = new FileDownloader(fileUrl, this);
+
+   // connect(m_downloadCtrl, SIGNAL(connectionError()), this, SLOT(offlineStart()));
+    connect(m_downloadCtrl, SIGNAL(downloaded()), this, SLOT(getOnlineVersion()));
+}
+
+QString MainWindow::getOnlineVersion() {
+    QString onlineVersion = m_downloadCtrl->downloadedData().replace("\n", "");
+    qDebug() << "onlineVersion " << onlineVersion;
+
+    // TODO Open Dialog
+    return onlineVersion;
+}
+
 
 void MainWindow::logNetworkIFace(){
     QList<QNetworkInterface> allInterfaces = QNetworkInterface::allInterfaces();

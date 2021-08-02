@@ -11,6 +11,7 @@
 #include <QWebEngineView>
 #include <QSystemTrayIcon>
 #include <QSharedMemory>
+#include <filedownloader.h>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -40,7 +41,6 @@ protected:
     QString saasversion;
     QString state;
 
-protected:
     int UI_WIDTH;
     int UI_HEIGHT;
 
@@ -74,11 +74,19 @@ protected:
     void saveSettings(QString url);
 
     void sendGoRequest();
+private:
+    FileDownloader* m_downloadCtrl;
+
+    // Settings for Versioncontrol
+    QString versionURL;
+    void downloadFile(QUrl fileUrl);
+
 private slots:
     void comeGo(QSystemTrayIcon::ActivationReason e);
     void showHideWindow();
 public slots:
     void onQuit();
+    QString getOnlineVersion();
 };
 
 #endif // MAINWINDOW_H

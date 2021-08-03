@@ -158,6 +158,9 @@ void MainWindow::startSetup()
 {
     QProcess* process = new QProcess();
     process->setProgram(setupFileName);
+    QStringList arguments;
+    arguments << "-update";
+    process->setArguments(arguments);
     process->start();
 
     qApp->closeAllWindows();

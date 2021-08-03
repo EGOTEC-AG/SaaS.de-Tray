@@ -242,8 +242,6 @@ QString MainWindow::getLocalVersion() {
 
 void MainWindow::downloadFile(QUrl fileUrl) {
     m_downloadCtrl = new FileDownloader(fileUrl, this);
-
-    connect(m_downloadCtrl, SIGNAL(connectionError()), this, SLOT(offlineStart()));
     connect(m_downloadCtrl, SIGNAL(downloaded()), this, SLOT(checkForUpdate()));
 }
 

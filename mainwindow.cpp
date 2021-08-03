@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent) :
     // Settings
 #ifdef _WIN32
     MainWindow::versionURL = "http://files.saas.de/tasksymbol_2021/windows/version";
-    MainWindow::setupFileName = "Setup.exe";
+    MainWindow::setupFileName = "SaaS.de.Setup.exe";
 #elif __APPLE__
     MainWindow::versionURL = "http://files.saas.de/saasde/tray/mac/version";
     MainWindow::setupFileName = "false";    // TODO ????

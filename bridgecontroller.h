@@ -19,13 +19,14 @@ public:
     //Q_INVOKABLE void openSaas();
     //Q_INVOKABLE void openRegisterPage();
     Q_INVOKABLE void changeUrl(QString url);
-    QDialog *qDialog;
-    QPushButton *button;
-    QLabel *label;
+
     int counter;
     bool dialog = false;
 
 private:
+    QDialog *qDialog;
+    QPushButton *button;
+    QLabel *label;
     void createDialog();
     void createWebkitFrame();
 public slots:

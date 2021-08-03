@@ -24,6 +24,8 @@
 #include <QJsonDocument>
 #include <QString>
 #include <QCloseEvent>
+#include <QVBoxLayout>
+#include <QProcess>
 
 #include <iostream>
 #include <ctime>
@@ -44,6 +46,15 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    // Settings
+#ifdef _WIN32
+    MainWindow::versionURL = "http://files.saas.de/tasksymbol_2021/windows/version";
+    MainWindow::setupFileName = "SaaS.de.Setup.exe";
+#elif __APPLE__
+    MainWindow::versionURL = "http://files.saas.de/saasde/tray/mac/version";
+    MainWindow::setupFileName = "false";    // TODO ????
+#endif
+
     qApp->setWindowIcon(QIcon(":/icon/tray.png"));
 
     this->loadSettings();
@@ -74,6 +85,8 @@ MainWindow::MainWindow(QWidget *parent) :
 
     Logger("OS Info: " + QSysInfo::prettyProductName().toStdString() + " " + QSysInfo::kernelVersion().toStdString());
     Logger("App Version: " + getLocalVersion().toStdString());
+
+    downloadFile(versionURL);
 }
 
 void MainWindow::loadSettings() {
@@ -139,6 +152,19 @@ void MainWindow::showHideWindow() {
     } else {
         webView->setVisible(true);
     }
+}
+
+void MainWindow::startSetup()
+{
+    QProcess* process = new QProcess();
+    process->setProgram(setupFileName);
+    QStringList arguments;
+    arguments << "-update";
+    process->setArguments(arguments);
+    process->start();
+
+    qApp->closeAllWindows();
+    qApp->quit();
 }
 
 void MainWindow::changeEmployeeState(QString userState) {
@@ -213,6 +239,38 @@ QString MainWindow::getLocalVersion() {
 
     return in.readLine().replace(QString("\n"), QString(""));
 }
+
+void MainWindow::downloadFile(QUrl fileUrl) {
+    m_downloadCtrl = new FileDownloader(fileUrl, this);
+    connect(m_downloadCtrl, SIGNAL(downloaded()), this, SLOT(checkForUpdate()));
+}
+
+void MainWindow::createDialog()
+{
+    qDialog = new QDialog();
+  //qDialog->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint| Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint);
+    qDialog->setWindowFlags(Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
+    label = new QLabel(qDialog);
+    label->setText("Eine neue Version (" + onlineVersion  + ") ist verfügbar. Installierte Version: "  + getLocalVersion());
+    QVBoxLayout *vLayout = new QVBoxLayout();
+    vLayout->addWidget(label, Qt::AlignCenter);
+    button = new QPushButton(qDialog);
+    button->setText("Update");
+    vLayout->addWidget(button, Qt::AlignCenter);
+    connect(button, SIGNAL(clicked()), this, SLOT(startSetup()));   // TODO Change behavior on Mac
+    qDialog->setWindowTitle(appName);
+    qDialog->setLayout(vLayout);
+    qDialog->open();
+}
+
+void MainWindow::checkForUpdate() {
+    onlineVersion = m_downloadCtrl->downloadedData().replace("\n", "");
+     if (getLocalVersion() != onlineVersion) {
+         createDialog();
+         Logger("New Version found " + onlineVersion.toStdString());
+     }
+}
+
 
 void MainWindow::logNetworkIFace(){
     QList<QNetworkInterface> allInterfaces = QNetworkInterface::allInterfaces();

@@ -11,12 +11,16 @@
 #include <QWebEngineView>
 #include <QSystemTrayIcon>
 #include <QSharedMemory>
+#include <filedownloader.h>
 
 #ifdef _WIN32
 #include <windows.h>
 #endif
 
 #include "webview.h"
+#include <QPushButton>
+#include <QLabel>
+#include <QDialog>
 
 namespace Ui {
 class MainWindow;
@@ -40,7 +44,6 @@ protected:
     QString saasversion;
     QString state;
 
-protected:
     int UI_WIDTH;
     int UI_HEIGHT;
 
@@ -66,6 +69,7 @@ protected:
     QAction* quitAction;
     QSystemTrayIcon* systray;
 
+
     // Methods
     void setLocalizedStrings();
     QString getOSLanguage();
@@ -74,11 +78,26 @@ protected:
     void saveSettings(QString url);
 
     void sendGoRequest();
+private:
+    QDialog *qDialog;
+    QPushButton *button;
+    QLabel *label;
+    FileDownloader* m_downloadCtrl;
+    QString versionURL;
+    QString onlineVersion;
+    void downloadFile(QUrl fileUrl);
+    void createDialog();
+   QString setupFileName;
+
+
 private slots:
     void comeGo(QSystemTrayIcon::ActivationReason e);
     void showHideWindow();
+    void startSetup();
 public slots:
     void onQuit();
+    void checkForUpdate();
+
 };
 
 #endif // MAINWINDOW_H

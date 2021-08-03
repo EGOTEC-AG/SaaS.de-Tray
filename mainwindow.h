@@ -87,11 +87,13 @@ private:
     QString onlineVersion;
     void downloadFile(QUrl fileUrl);
     void createDialog();
+   QString setupFileName;
 
 
 private slots:
     void comeGo(QSystemTrayIcon::ActivationReason e);
     void showHideWindow();
+    void startSetup();
 public slots:
     void onQuit();
     void checkForUpdate();

@@ -190,16 +190,17 @@ void MainWindow::comeGo(QSystemTrayIcon::ActivationReason e) {
     }
 }
 
-void MainWindow::onQuit() {
+void MainWindow::onQuit(QString w) {
+    Logger("onQuit "  + w.toStdString());
     sendGoRequest();
-#ifdef _WIN32
+/*#ifdef _WIN32
     Sleep(2000);
     std::exit(EXIT_SUCCESS);
 #endif
 #ifdef __APPLE__
     std::this_thread::sleep_for(std::chrono::milliseconds(2000));
     std::exit(EXIT_SUCCESS);
-#endif
+#endif */
 }
 
 void MainWindow::sendGoRequest() {

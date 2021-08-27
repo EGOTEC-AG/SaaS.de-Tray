@@ -14,13 +14,15 @@
 
 #include <QNetworkProxy>
 
+#include "helper/logger.h"
+
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 const wchar_t g_szClassName[] = L"myWindowClass";
-
 BridgeControllerWindow* w;
 QSharedMemory sharedMemory;
 
 int main(int argc, char *argv[]) {
+
     HINSTANCE hInstance = (HINSTANCE) 0;
 
     WNDCLASSEX wc;
@@ -73,27 +75,33 @@ int main(int argc, char *argv[]) {
 
     while(GetMessage(&Msg, NULL, 0, 0) > 0) {
         sharedMemory.unlock();
-        w->onQuit();
+        w->onQuit("GetMessage");
 
-        TranslateMessage(&Msg);
-        DispatchMessage(&Msg);
+
+       // TranslateMessage(&Msg);
+       // DispatchMessage(&Msg);
 
         return Msg.wParam;
-
     }
-    return Msg.wParam;
+
+   return Msg.wParam;
 }
+
+
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     switch (message) {
     case WM_QUERYENDSESSION:
-        sharedMemory.unlock();
-        w->onQuit();
-        //ShutdownBlockReasonCreate( hWnd, L"Wait for SaaS.de Logout");
-        return FALSE;
-        break;
+         //Logger("WM_QUERYENDSESSION " + std::to_string(message));
+
+        // ShutdownBlockReasonCreate( hWnd, L"Wait for SaaS.de Logout");
+         sharedMemory.unlock();
+         w->onQuit("WM_QUERYENDSESSION");
+         break;
     case WM_ENDSESSION:
-        return 0;
+          //Logger("WM_ENDSESSION " + std::to_string(message));
+
+          return 0;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }

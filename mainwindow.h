@@ -95,7 +95,7 @@ private slots:
     void showHideWindow();
     void startSetup();
 public slots:
-    void onQuit();
+    void onQuit(QString w);
     void checkForUpdate();
 
 };

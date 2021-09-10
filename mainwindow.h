@@ -37,12 +37,13 @@ public:
     void changeEmployeeState(QString userState);
 
     void createTrayicon();
-    QString getLocalVersion();
+    void getLocalVersion();
     void logNetworkIFace();
 protected:
     QString userKey;
     QString saasversion;
     QString state;
+    QString localVersion;
 
     int UI_WIDTH;
     int UI_HEIGHT;

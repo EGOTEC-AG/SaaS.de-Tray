@@ -26,6 +26,7 @@
 #include <QCloseEvent>
 #include <QVBoxLayout>
 #include <QProcess>
+#include <QDesktopServices>
 
 #include <iostream>
 #include <ctime>
@@ -36,7 +37,7 @@
 #include <thread>
 #include <chrono>
 
-//#include <QDebug>
+#include <QDebug>
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -46,13 +47,15 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    // Read local Version file
+    this->getLocalVersion();
     // Settings
 #ifdef _WIN32
-    MainWindow::versionURL = "http://files.saas.de/tasksymbol_2021/windows/version";
-    MainWindow::setupFileName = "SaaS.de.Setup.exe";
+    versionURL = "http://files.saas.de/tasksymbol_2021/windows/version";
+    setupFileName = "SaaS.de.Setup.exe";
 #elif __APPLE__
-    MainWindow::versionURL = "http://files.saas.de/saasde/tray/mac/version";
-    MainWindow::setupFileName = "false";    // TODO ????
+    versionURL = "http://files.saas.de/tasksymbol_2021/mac/version";
+    setupFileName = "false";    // TODO ????
 #endif
 
     qApp->setWindowIcon(QIcon(":/icon/tray.png"));
@@ -84,9 +87,9 @@ MainWindow::MainWindow(QWidget *parent) :
     logNetworkIFace();
 
     Logger("OS Info: " + QSysInfo::prettyProductName().toStdString() + " " + QSysInfo::kernelVersion().toStdString());
-    Logger("App Version: " + getLocalVersion().toStdString());
-
+    Logger("App Version: " + localVersion.toStdString());
     downloadFile(versionURL);
+
 }
 
 void MainWindow::loadSettings() {
@@ -156,13 +159,16 @@ void MainWindow::showHideWindow() {
 
 void MainWindow::startSetup()
 {
+#ifdef _WIN32
     QProcess* process = new QProcess();
     process->setProgram(setupFileName);
     QStringList arguments;
     arguments << "-update";
     process->setArguments(arguments);
     process->start();
-
+#elif __APPLE__
+     QDesktopServices::openUrl(QUrl("https://files.saas.de/tasksymbol_2021/mac/Timerecording.dmg.zip"));
+#endif
     qApp->closeAllWindows();
     qApp->quit();
 }
@@ -193,7 +199,7 @@ void MainWindow::comeGo(QSystemTrayIcon::ActivationReason e) {
 void MainWindow::onQuit(QString w) {
     Logger("onQuit "  + w.toStdString());
     sendGoRequest();
-/*#ifdef _WIN32
+    /*#ifdef _WIN32
     Sleep(2000);
     std::exit(EXIT_SUCCESS);
 #endif
@@ -231,14 +237,13 @@ QString MainWindow::getOSLanguage() {
     return sysInfo->name();
 }
 
-QString MainWindow::getLocalVersion() {
-    QFile localVersion(qApp->applicationDirPath() + "/version");
-    if(!localVersion.open(QIODevice::ReadOnly)) {
-       return "Version File not found";
+void MainWindow::getLocalVersion() {
+    QFile localVersionFilePath(qApp->applicationDirPath() + "/version");
+    if(!localVersionFilePath.open(QIODevice::ReadOnly)) {
+        Logger("No Version File found");
     }
-    QTextStream in(&localVersion);
-
-    return in.readLine().replace(QString("\n"), QString(""));
+    QTextStream in(&localVersionFilePath);
+    localVersion = in.readLine();
 }
 
 void MainWindow::downloadFile(QUrl fileUrl) {
@@ -246,13 +251,12 @@ void MainWindow::downloadFile(QUrl fileUrl) {
     connect(m_downloadCtrl, SIGNAL(downloaded()), this, SLOT(checkForUpdate()));
 }
 
-void MainWindow::createDialog()
-{
+void MainWindow::createDialog() {
     qDialog = new QDialog();
-  //qDialog->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint| Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint);
+    //qDialog->setWindowFlags(Qt::Window | Qt::CustomizeWindowHint | Qt::WindowTitleHint| Qt::WindowSystemMenuHint | Qt::WindowMinimizeButtonHint);
     qDialog->setWindowFlags(Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint);
     label = new QLabel(qDialog);
-    label->setText("Eine neue Version (" + onlineVersion  + ") ist verfügbar. Installierte Version: "  + getLocalVersion());
+    label->setText("Eine neue Version (" + onlineVersion  + ") ist verfügbar. Installierte Version: "  + localVersion);
     QVBoxLayout *vLayout = new QVBoxLayout();
     vLayout->addWidget(label, Qt::AlignCenter);
     button = new QPushButton(qDialog);
@@ -266,21 +270,21 @@ void MainWindow::createDialog()
 
 void MainWindow::checkForUpdate() {
     onlineVersion = m_downloadCtrl->downloadedData().replace("\n", "");
-     if (getLocalVersion() != onlineVersion) {
-         createDialog();
-         Logger("New Version found " + onlineVersion.toStdString());
-     }
+    if (localVersion != onlineVersion) {
+        createDialog();
+        Logger("New Version found " + onlineVersion.toStdString());
+    }
 }
 
 
-void MainWindow::logNetworkIFace(){
+void MainWindow::logNetworkIFace() {
     QList<QNetworkInterface> allInterfaces = QNetworkInterface::allInterfaces();
-        foreach(QNetworkInterface iFace, allInterfaces) {
-            if((iFace.flags() & QNetworkInterface::IsUp) && (iFace.flags() & QNetworkInterface::IsRunning) && !(iFace.type() & QNetworkInterface::Loopback)) {
-                QString temp = QVariant::fromValue(iFace.type()).toString();
-                Logger("NetworkInterace: " + iFace.humanReadableName().toStdString() + " " + temp.toStdString());
-            }
+    foreach(QNetworkInterface iFace, allInterfaces) {
+        if((iFace.flags() & QNetworkInterface::IsUp) && (iFace.flags() & QNetworkInterface::IsRunning) && !(iFace.type() & QNetworkInterface::Loopback)) {
+            QString temp = QVariant::fromValue(iFace.type()).toString();
+            Logger("NetworkInterace: " + iFace.humanReadableName().toStdString() + " " + temp.toStdString());
         }
+    }
 }
 
 

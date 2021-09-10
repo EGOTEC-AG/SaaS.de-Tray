@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
         BridgeControllerWindow w;
         w.setVisible(false);
 
-        QObject::connect(&a, SIGNAL(aboutToQuit()), &w, SLOT(onQuit()));
+        //QObject::connect(&a, SIGNAL(aboutToQuit()), &w, SLOT(onQuit()));
 
         int result = a.exec();
         sharedMemory.unlock();
@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     BridgeControllerWindow w;
     w.setVisible(false);
 
-    QObject::connect(&a, SIGNAL(aboutToQuit()), &w, SLOT(onQuit()));
+    //QObject::connect(&a, SIGNAL(aboutToQuit()), &w, SLOT(onQuit()));
 
     int result = a.exec();
     return result;

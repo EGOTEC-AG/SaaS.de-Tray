@@ -112,8 +112,10 @@ void BridgeControllerWindow::ping()
     qDebug() << timenow - ts;
     if(timenow - ts > 28800) { // 28800 sekunden = 8h
         mainFrame->runJavaScript("window.loginComponentRef.taskPing(true);");
+        Logger("ping true timenow: " + std::to_string(timenow) + " lastGo: " + std::to_string(ts));
     } else {
         mainFrame->runJavaScript("window.loginComponentRef.taskPing(false);");
+        Logger("ping false timenow: " + std::to_string(timenow) + " lastGo: " + std::to_string(ts));
     }
 }
 

@@ -94,14 +94,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::loadSettings() {
     QSettings settings;
-    URL = settings.value("URL", "https://local.saas.de").toString();
+    URL = settings.value("URL", "https://desktop.saas.de").toString();
     Logger("loadSettings " + URL.toStdString());
 
 }
 
 void MainWindow::saveSettings(QString url) {
     QSettings settings;
-    settings.setValue("URL", "https://local.saas.de");
+    settings.setValue("URL", url);
     URL = url;
     Logger("saveSettings " + url.toStdString());
 }

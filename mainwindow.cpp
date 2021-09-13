@@ -94,14 +94,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::loadSettings() {
     QSettings settings;
-    URL = settings.value("URL", "https://desktop.saas.de").toString();
+    URL = settings.value("URL", "https://local.saas.de").toString();
     Logger("loadSettings " + URL.toStdString());
 
 }
 
 void MainWindow::saveSettings(QString url) {
     QSettings settings;
-    settings.setValue("URL", url);
+    settings.setValue("URL", "https://local.saas.de");
     URL = url;
     Logger("saveSettings " + url.toStdString());
 }
@@ -141,9 +141,7 @@ void MainWindow::createTrayicon() {
 
     systray = new QSystemTrayIcon(this);
     systray->setIcon(QIcon(":/icon/tray.png"));
-    //#ifndef __APPLE__
     systray->setContextMenu (trayIconMenu);
-    //#endif
     systray->show();
 
     connect(systray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(comeGo(QSystemTrayIcon::ActivationReason)));
@@ -198,15 +196,15 @@ void MainWindow::comeGo(QSystemTrayIcon::ActivationReason e) {
 
 void MainWindow::onQuit(QString w) {
     Logger("onQuit "  + w.toStdString());
-    sendGoRequest();
-    /*#ifdef _WIN32
+    sendGoRequest(); // TODO
+/*#ifdef _WIN32
     Sleep(2000);
     std::exit(EXIT_SUCCESS);
 #endif
 #ifdef __APPLE__
     std::this_thread::sleep_for(std::chrono::milliseconds(2000));
     std::exit(EXIT_SUCCESS);
-#endif */
+#endif*/
 }
 
 void MainWindow::sendGoRequest() {

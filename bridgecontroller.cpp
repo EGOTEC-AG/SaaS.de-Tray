@@ -19,6 +19,8 @@
 #include <QApplication>
 #include <QDesktopServices>
 #include <QProcess>
+#include <QTimer>
+#include <QSettings>
 
 #include <QVBoxLayout>
 
@@ -28,6 +30,9 @@
 BridgeControllerWindow::BridgeControllerWindow(QWidget *parent) : MainWindow(parent) {
     createWebkitFrame();
     checkOnline();
+    timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(ping()));
+    timer->setInterval(120000);
 }
 
 void BridgeControllerWindow::createWebkitFrame() {
@@ -49,24 +54,26 @@ void BridgeControllerWindow::createWebkitFrame() {
 }
 
 void BridgeControllerWindow::onLoadFinished() {
+    QWebChannel* channel = new QWebChannel(mainFrame);
+    mainFrame->setWebChannel(channel);
+    channel->registerObject("api", this);
+
     QString hostName = QHostInfo::localHostName();
     mainFrame->runJavaScript("window.loginComponentRef.setDeviceName('"+ hostName +"');");
     mainFrame->runJavaScript("window.loginComponentRef.taskAppCome();");
 
-    QWebChannel* channel = new QWebChannel(mainFrame);
-    mainFrame->setWebChannel(channel);
-    channel->registerObject("api", this);
+    timer->start();
 }
 
 void BridgeControllerWindow::checkOnline() {
     QString ping = "ping -c 1 ";
 
-    #ifdef _WIN32
-         ping = "ping -n 1 ";
-    #endif
+#ifdef _WIN32
+    ping = "ping -n 1 ";
+#endif
 
-     ping += URL;
-     ping.replace("https://" , "");
+    ping += URL;
+    ping.replace("https://" , "");
 
     if(QProcess::execute(ping) == 0)
     {
@@ -80,8 +87,8 @@ void BridgeControllerWindow::checkOnline() {
         createTrayicon();
     } else {
         if (counter == 0) {
-             createDialog();
-             dialog = true;
+            createDialog();
+            dialog = true;
         }
         qDialog->show();
         webView->close();
@@ -92,6 +99,21 @@ void BridgeControllerWindow::checkOnline() {
             button->setText("Beenden");
             connect(button, SIGNAL(clicked()), this, SLOT(onQuit()));
         }
+    }
+}
+
+void BridgeControllerWindow::ping()
+{
+    QSettings settings;
+    qDebug() << settings.value("TS");
+    long long ts = settings.value("TS").toULongLong();
+    const auto p1 = std::chrono::system_clock::now();
+    long long timenow = std::chrono::duration_cast<std::chrono::seconds>(p1.time_since_epoch()).count();
+    qDebug() << timenow - ts;
+    if(timenow - ts > 28800) { // 28800 sekunden = 8h
+        mainFrame->runJavaScript("window.loginComponentRef.taskPing(true);");
+    } else {
+        mainFrame->runJavaScript("window.loginComponentRef.taskPing(false);");
     }
 }
 
@@ -124,6 +146,16 @@ void BridgeControllerWindow::setEmployeeState(QString state) {
     }
 
     Logger("setEmployeeState");
+}
+
+void BridgeControllerWindow::setGoTimestamp()
+{
+    QSettings settings;
+    const auto p1 = std::chrono::system_clock::now();
+    settings.setValue("TS", std::chrono::duration_cast<std::chrono::seconds>(p1.time_since_epoch()).count());
+    //timer->stop();
+    Logger("setGoTimestamp() " + settings.value("TS").toString().toStdString());
+    qDebug() << "timestamp set";
 }
 
 void BridgeControllerWindow::changeUrl(QString url) {

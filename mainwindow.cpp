@@ -37,7 +37,6 @@
 #include <thread>
 #include <chrono>
 
-#include <QDebug>
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -94,14 +93,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::loadSettings() {
     QSettings settings;
-    URL = settings.value("URL", "https://desktop.saas.de").toString();
+    URL = settings.value("URL", "https://home.saas.de").toString();
     Logger("loadSettings " + URL.toStdString());
 
 }
 
 void MainWindow::saveSettings(QString url) {
     QSettings settings;
-    settings.setValue("URL", url);
+    settings.setValue("URL", "https://home.saas.de");
     URL = url;
     Logger("saveSettings " + url.toStdString());
 }
@@ -165,7 +164,7 @@ void MainWindow::startSetup()
     process->setArguments(arguments);
     process->start();
 #elif __APPLE__
-     QDesktopServices::openUrl(QUrl("https://files.saas.de/tasksymbol_2021/mac/Timerecording.dmg.zip"));
+    QDesktopServices::openUrl(QUrl("https://files.saas.de/tasksymbol_2021/mac/Timerecording.dmg.zip"));
 #endif
     qApp->closeAllWindows();
     qApp->quit();
@@ -196,8 +195,8 @@ void MainWindow::comeGo(QSystemTrayIcon::ActivationReason e) {
 
 void MainWindow::onQuit(QString w) {
     Logger("onQuit "  + w.toStdString());
-    sendGoRequest(); // TODO
-/*#ifdef _WIN32
+    //sendGoRequest(); // TODO
+    /*#ifdef _WIN32
     Sleep(2000);
     std::exit(EXIT_SUCCESS);
 #endif

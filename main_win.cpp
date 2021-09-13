@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
 
     while(GetMessage(&Msg, NULL, 0, 0) > 0) {
         sharedMemory.unlock();
-        w->onQuit("GetMessage");
+       // w->onQuit("GetMessage");
 
 
        // TranslateMessage(&Msg);
@@ -96,7 +96,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
         // ShutdownBlockReasonCreate( hWnd, L"Wait for SaaS.de Logout");
          sharedMemory.unlock();
-         w->onQuit("WM_QUERYENDSESSION");
+        // w->onQuit("WM_QUERYENDSESSION");
          break;
     case WM_ENDSESSION:
           //Logger("WM_ENDSESSION " + std::to_string(message));

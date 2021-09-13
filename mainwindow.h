@@ -88,7 +88,7 @@ private:
     QString onlineVersion;
     void downloadFile(QUrl fileUrl);
     void createDialog();
-   QString setupFileName;
+    QString setupFileName;
 
 
 private slots:

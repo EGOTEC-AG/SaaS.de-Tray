@@ -24,8 +24,6 @@
 
 #include <QVBoxLayout>
 
-#include <QDebug>
-
 
 BridgeControllerWindow::BridgeControllerWindow(QWidget *parent) : MainWindow(parent) {
     createWebkitFrame();
@@ -61,6 +59,7 @@ void BridgeControllerWindow::onLoadFinished() {
     QString hostName = QHostInfo::localHostName();
     mainFrame->runJavaScript("window.loginComponentRef.setDeviceName('"+ hostName +"');");
     mainFrame->runJavaScript("window.loginComponentRef.taskAppCome();");
+
 
     timer->start();
 }
@@ -105,11 +104,9 @@ void BridgeControllerWindow::checkOnline() {
 void BridgeControllerWindow::ping()
 {
     QSettings settings;
-    qDebug() << settings.value("TS");
     long long ts = settings.value("TS").toULongLong();
     const auto p1 = std::chrono::system_clock::now();
     long long timenow = std::chrono::duration_cast<std::chrono::seconds>(p1.time_since_epoch()).count();
-    qDebug() << timenow - ts;
     if(timenow - ts > 28800) { // 28800 sekunden = 8h
         mainFrame->runJavaScript("window.loginComponentRef.taskPing(true);");
         Logger("ping true timenow: " + std::to_string(timenow) + " lastGo: " + std::to_string(ts));
@@ -157,7 +154,6 @@ void BridgeControllerWindow::setGoTimestamp()
     settings.setValue("TS", std::chrono::duration_cast<std::chrono::seconds>(p1.time_since_epoch()).count());
     //timer->stop();
     Logger("setGoTimestamp() " + settings.value("TS").toString().toStdString());
-    qDebug() << "timestamp set";
 }
 
 void BridgeControllerWindow::changeUrl(QString url) {

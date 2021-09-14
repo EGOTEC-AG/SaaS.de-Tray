@@ -162,16 +162,3 @@ void BridgeControllerWindow::changeUrl(QString url) {
 
     Logger("changeUrl");
 }
-
-
-/*void BridgeControllerWindow::openSaas() {
-    QDesktopServices::openUrl(QUrl(URL));
-
-    Logger("openSaas");
-}
-
-void BridgeControllerWindow::openRegisterPage() {
-    QDesktopServices::openUrl(QUrl(URL + "/?register=1"));
-
-    Logger("openRegisterPage");
-}*/

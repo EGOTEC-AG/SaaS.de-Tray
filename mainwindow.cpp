@@ -93,14 +93,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::loadSettings() {
     QSettings settings;
-    URL = settings.value("URL", "https://home.saas.de").toString();
+    URL = settings.value("URL", "https://desktop.saas.de").toString();
     Logger("loadSettings " + URL.toStdString());
 
 }
 
 void MainWindow::saveSettings(QString url) {
     QSettings settings;
-    settings.setValue("URL", "https://home.saas.de");
+    settings.setValue("URL", "https://desktop.saas.de");
     URL = url;
     Logger("saveSettings " + url.toStdString());
 }
@@ -195,38 +195,6 @@ void MainWindow::comeGo(QSystemTrayIcon::ActivationReason e) {
 
 void MainWindow::onQuit(QString w) {
     Logger("onQuit "  + w.toStdString());
-    //sendGoRequest(); // TODO
-    /*#ifdef _WIN32
-    Sleep(2000);
-    std::exit(EXIT_SUCCESS);
-#endif
-#ifdef __APPLE__
-    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-    std::exit(EXIT_SUCCESS);
-#endif*/
-}
-
-void MainWindow::sendGoRequest() {
-    QNetworkRequest req(QUrl(URL + "/rest/apps/simplego"));
-    req.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-
-    QString hostName = QHostInfo::localHostName();
-    QJsonObject param;
-    param.insert("uuid", QJsonValue::fromVariant(userKey));
-    param.insert("device", QJsonValue::fromVariant(hostName));
-
-    QNetworkAccessManager http;
-    QNetworkReply *netReply = http.post(req, QJsonDocument(param).toJson(QJsonDocument::Compact));
-
-    QEventLoop loop;
-    connect(netReply, SIGNAL(finished()), &loop, SLOT(quit()));
-    loop.exec();
-
-    QByteArray bytes = netReply->readAll();
-    QString str = QString::fromUtf8(bytes.data(), bytes.size());
-    int statusCode = netReply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
-
-    Logger("sendGoRequest " + URL.toStdString() + " StatusCode: " + std::to_string(statusCode) + " Response: " + str.toStdString());
 }
 
 QString MainWindow::getOSLanguage() {
@@ -259,7 +227,7 @@ void MainWindow::createDialog() {
     button = new QPushButton(qDialog);
     button->setText("Update");
     vLayout->addWidget(button, Qt::AlignCenter);
-    connect(button, SIGNAL(clicked()), this, SLOT(startSetup()));   // TODO Change behavior on Mac
+    connect(button, SIGNAL(clicked()), this, SLOT(startSetup()));
     qDialog->setWindowTitle(appName);
     qDialog->setLayout(vLayout);
     qDialog->open();

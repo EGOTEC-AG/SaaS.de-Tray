@@ -20,7 +20,7 @@ win32 {
     INCLUDEPATH += C:/OpenSSL-Win64/include
     LIBS += -LC:/OpenSSL-Win64/lib -llibcrypto -llibssl
 
-    SOURCES +=  main_win.cpp
+    SOURCES +=  main.cpp
     QMAKE_LIBS += user32.lib
 
     win32:RC_ICONS += icon/tray.ico

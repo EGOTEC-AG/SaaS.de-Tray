@@ -78,7 +78,6 @@ protected:
     void loadSettings();
     void saveSettings(QString url);
 
-    void sendGoRequest();
 private:
     QDialog *qDialog;
     QPushButton *button;

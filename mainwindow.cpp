@@ -100,7 +100,7 @@ void MainWindow::loadSettings() {
 
 void MainWindow::saveSettings(QString url) {
     QSettings settings;
-    settings.setValue("URL", "https://desktop.saas.de");
+    settings.setValue("URL", url);
     URL = url;
     Logger("saveSettings " + url.toStdString());
 }

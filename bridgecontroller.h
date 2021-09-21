@@ -31,6 +31,7 @@ private:
     QTimer *timer;
     void createDialog();
     void createWebkitFrame();
+    void pingDebug(QString log);
 public slots:
     void onLoadFinished();
     void checkOnline();

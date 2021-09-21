@@ -49,12 +49,11 @@ MainWindow::MainWindow(QWidget *parent) :
     // Read local Version file
     this->getLocalVersion();
     // Settings
+    setupFileName = "SaaS.de.Setup.exe";
 #ifdef _WIN32
     versionURL = "http://files.saas.de/tasksymbol_2021/windows/version";
-    setupFileName = "SaaS.de.Setup.exe";
 #elif __APPLE__
     versionURL = "http://files.saas.de/tasksymbol_2021/mac/version";
-    setupFileName = "false";    // TODO ????
 #endif
 
     qApp->setWindowIcon(QIcon(":/icon/tray.png"));

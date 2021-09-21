@@ -51,6 +51,7 @@ void BridgeControllerWindow::createWebkitFrame() {
     connect(mainFrame, SIGNAL(loadFinished(bool)), this, SLOT(onLoadFinished()));
 }
 
+
 void BridgeControllerWindow::onLoadFinished() {
     QWebChannel* channel = new QWebChannel(mainFrame);
     mainFrame->setWebChannel(channel);
@@ -129,6 +130,11 @@ void BridgeControllerWindow::createDialog() {
     qDialog->setWindowTitle(appName);
     qDialog->setLayout(vLayout);
     qDialog->open();
+}
+
+
+void BridgeControllerWindow::pingDebug(QString log) {
+    Logger("DebugPing " + log.toStdString());
 }
 
 void BridgeControllerWindow::setUserData(QString employeeKey, QString version) {

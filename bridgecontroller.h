@@ -20,6 +20,7 @@ public:
     //Q_INVOKABLE void openSaas();
     //Q_INVOKABLE void openRegisterPage();
     Q_INVOKABLE void changeUrl(QString url);
+    Q_INVOKABLE void pingDebug(QString log);
 
     int counter;
     bool dialog = false;
@@ -31,7 +32,7 @@ private:
     QTimer *timer;
     void createDialog();
     void createWebkitFrame();
-    void pingDebug(QString log);
+
 public slots:
     void onLoadFinished();
     void checkOnline();

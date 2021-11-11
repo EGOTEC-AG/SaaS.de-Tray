@@ -234,7 +234,7 @@ void MainWindow::createDialog() {
 
 void MainWindow::checkForUpdate() {
     onlineVersion = m_downloadCtrl->downloadedData().replace("\n", "");
-    if (localVersion != onlineVersion && onlineVersion.length() == 8) {
+    if (localVersion != onlineVersion && onlineVersion.length() <= 10) {
         createDialog();
         Logger("New Version found " + onlineVersion.toStdString());
     }

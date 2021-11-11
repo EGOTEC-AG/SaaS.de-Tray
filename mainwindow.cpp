@@ -51,9 +51,9 @@ MainWindow::MainWindow(QWidget *parent) :
     // Settings
     setupFileName = "SaaS.de.Setup.exe";
 #ifdef _WIN32
-    versionURL = "http://files.saas.de/tasksymbol_2021/windows/version";
+    versionURL = "https://files.saas.de/tasksymbol_2021/windows/version";
 #elif __APPLE__
-    versionURL = "http://files.saas.de/tasksymbol_2021/mac/version";
+    versionURL = "https://files.saas.de/tasksymbol_2021/mac/version";
 #endif
 
     qApp->setWindowIcon(QIcon(":/icon/tray.png"));
@@ -234,7 +234,7 @@ void MainWindow::createDialog() {
 
 void MainWindow::checkForUpdate() {
     onlineVersion = m_downloadCtrl->downloadedData().replace("\n", "");
-    if (localVersion != onlineVersion) {
+    if (localVersion != onlineVersion && onlineVersion.length() == 8) {
         createDialog();
         Logger("New Version found " + onlineVersion.toStdString());
     }

@@ -163,8 +163,10 @@ void BridgeControllerWindow::setGoTimestamp()
 }
 
 void BridgeControllerWindow::changeUrl(QString url) {
-    webView->load(QUrl(url + "/timerecordingv2/#/?api=1"));
-    MainWindow::saveSettings(url);
+    if(URL != url) {
+        webView->load(QUrl(url + "/timerecordingv2/#/?api=1"));
+        MainWindow::saveSettings(url);
 
-    Logger("changeUrl");
+        Logger("changeUrl");
+    }
 }

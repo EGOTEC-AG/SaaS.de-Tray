@@ -60,7 +60,7 @@ void BridgeControllerWindow::onLoadFinished() {
     QString hostName = QHostInfo::localHostName();
     mainFrame->runJavaScript("window.loginComponentRef.setDeviceName('"+ hostName +"');");
     mainFrame->runJavaScript("window.loginComponentRef.taskAppCome();");
-
+    Logger("Automatisches Kommen aufgerufen");
 
     timer->start();
 }
@@ -163,10 +163,8 @@ void BridgeControllerWindow::setGoTimestamp()
 }
 
 void BridgeControllerWindow::changeUrl(QString url) {
-    if(URL != url) {
-        webView->load(QUrl(url + "/timerecordingv2/#/?api=1"));
-        MainWindow::saveSettings(url);
+    webView->load(QUrl(url + "/timerecordingv2/#/?api=1"));
+    MainWindow::saveSettings(url);
 
-        Logger("changeUrl");
-    }
+    Logger("changeUrl");
 }
